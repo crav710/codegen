@@ -1,0 +1,10 @@
+transformers>=4.45.0          # Qwen2.5-Coder loaders + tokenizer chat templates
+accelerate>=0.34.0            # device_map="auto" for fp16 / 4-bit loading
+bitsandbytes>=0.43.0          # 4-bit nf4 quantization for Qwen-7B on T4
+datasets>=2.20.0              # HF datasets (HumanEval, MBPP)
+sentencepiece>=0.2.0          # Qwen tokenizer dependency
+torch>=2.1.0                  # base
+huggingface-hub>=0.24.0       # hf_hub_download (HumanEval-X jsonl shards)
+numpy>=1.26.0                 # base
+pandas>=2.1.0                 # baselines.csv assembly + summary
+tqdm>=4.66.0                  # per-benchmark progress bars

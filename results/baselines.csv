@@ -1,0 +1,6450 @@
+model,benchmark,problem_id,generated,score,passed,error
+1.5b,humaneval,HumanEval/1,"```python
+from typing import List
+
+def separate_paren_groups(paren_string: str) -> List[str]:
+    """""" Input to this function is a string containing multiple groups of nested parentheses. Your goal is to
+    separate those group into separate strings and return the list of those.
+    Separate groups are balanced (each open brace is properly closed) and not nested within each other
+    Ignore any spaces in the input string.
+    >>> separate_paren_groups('( ) (( )) (( )( ))')
+    ['()', '(())', '(()())']
+    """"""
+    result = []
+    current_group = ''
+    depth = 0
+
+    for char in paren_string.replace(' ', ''):
+        if char == '(':
+            depth += 1
+            current_group += char
+        elif char == ')':
+            depth -= 1
+            current_group += char
+            if depth == 0:
+                result.append(current_group)
+                current_group = ''
+
+    return result
+```",1.0,True,
+1.5b,humaneval,HumanEval/5,"```python
+from typing import List
+
+def intersperse(numbers: List[int], delimeter: int) -> List[int]:
+    """""" Insert a number 'delimeter' between every two consecutive elements of input list `numbers'
+    >>> intersperse([], 4)
+    []
+    >>> intersperse([1, 2, 3], 4)
+    [1, 4, 2, 4, 3]
+    """"""
+    if not numbers:
+        return []
+
+    result = [numbers[0]]
+    for num in numbers[1:]:
+        result.extend([delimeter, num])
+
+    return result
+```",1.0,True,
+1.5b,humaneval,HumanEval/6,"```python
+from typing import List
+
+def parse_nested_parens(paren_string: str) -> List[int]:
+    """""" Input to this function is a string represented multiple groups for nested parentheses separated by spaces.
+    For each of the group, output the deepest level of nesting of parentheses.
+    E.g. (()()) has maximum two levels of nesting while ((())) has three.
+
+    >>> parse_nested_parens('(()()) ((())) () ((())()())')
+    [2, 3, 1, 3]
+    """"""
+    result = []
+    current_depth = 0
+    max_depth = 0
+    
+    for char in paren_string:
+        if char == '(':
+            current_depth += 1
+            max_depth = max(max_depth, current_depth)
+        elif char == ')':
+            current_depth -= 1
+    
+    result.append(max_depth)
+    
+    return result
+```",0.0,False,AssertionError
+1.5b,humaneval,HumanEval/7,"```python
+from typing import List
+
+def filter_by_substring(strings: List[str], substring: str) -> List[str]:
+    """""" Filter an input list of strings only for ones that contain given substring
+    >>> filter_by_substring([], 'a')
+    []
+    >>> filter_by_substring(['abc', 'bacd', 'cde', 'array'], 'a')
+    ['abc', 'bacd', 'array']
+    """"""
+    return [s for s in strings if substring in s]
+```",1.0,True,
+1.5b,humaneval,HumanEval/8,"```python
+from typing import List, Tuple
+
+def sum_product(numbers: List[int]) -> Tuple[int, int]:
+    """""" For a given list of integers, return a tuple consisting of a sum and a product of all the integers in a list.
+    Empty sum should be equal to 0 and empty product should be equal to 1.
+    >>> sum_product([])
+    (0, 1)
+    >>> sum_product([1, 2, 3, 4])
+    (10, 24)
+    """"""
+    if not numbers:
+        return 0, 1
+    
+    total_sum = sum(numbers)
+    total_product = 1
+    for num in numbers:
+        total_product *= num
+    
+    return total_sum, total_product
+```",1.0,True,
+1.5b,humaneval,HumanEval/12,"```python
+from typing import List, Optional
+
+def longest(strings: List[str]) -> Optional[str]:
+    """""" Out of list of strings, return the longest one. Return the first one in case of multiple
+    strings of the same length. Return None in case the input list is empty.
+    >>> longest([])
+    None
+
+    >>> longest(['a', 'b', 'c'])
+    'a'
+
+    >>> longest(['a', 'bb', 'ccc'])
+    'ccc'
+    """"""
+    if not strings:
+        return None
+    
+    max_length = 0
+    longest_string = """"
+    
+    for string in strings:
+        if len(string) > max_length:
+            max_length = len(string)
+            longest_string = string
+            
+    return longest_string
+```",1.0,True,
+1.5b,humaneval,HumanEval/15,"```python
+from typing import *
+from collections import *
+
+def string_sequence(n: int) -> str:
+    """""" Return a string containing space-delimited numbers starting from 0 upto n inclusive.
+    >>> string_sequence(0)
+    '0'
+    >>> string_sequence(5)
+    '0 1 2 3 4 5'
+    """"""
+    return "" "".join(map(str, range(n + 1)))
+```",1.0,True,
+1.5b,humaneval,HumanEval/22,"```python
+from typing import List, Any
+
+def filter_integers(values: List[Any]) -> List[int]:
+    """""" Filter given list of any python values only for integers
+    >>> filter_integers(['a', 3.14, 5])
+    [5]
+    >>> filter_integers([1, 2, 3, 'abc', {}, []])
+    [1, 2, 3]
+    """"""
+    return [value for value in values if isinstance(value, int)]
+```",1.0,True,
+1.5b,humaneval,HumanEval/23,"```python
+from typing import *
+from collections import *
+
+def strlen(string: str) -> int:
+    """""" Return length of given string
+    >>> strlen('')
+    0
+    >>> strlen('abc')
+    3
+    """"""
+    return len(string)
+```",1.0,True,
+1.5b,humaneval,HumanEval/26,"```python
+from typing import List
+
+def remove_duplicates(numbers: List[int]) -> List[int]:
+    """""" From a list of integers, remove all elements that occur more than once.
+    Keep order of elements left the same as in the input.
+    >>> remove_duplicates([1, 2, 3, 2, 4])
+    [1, 3, 4]
+    """"""
+    seen = set()
+    result = []
+    for num in numbers:
+        if num not in seen:
+            seen.add(num)
+            result.append(num)
+    return result
+```",0.0,False,AssertionError
+1.5b,humaneval,HumanEval/28,"```python
+from typing import List
+
+def concatenate(strings: List[str]) -> str:
+    """""" Concatenate list of strings into a single string
+    >>> concatenate([])
+    ''
+    >>> concatenate(['a', 'b', 'c'])
+    'abc'
+    """"""
+    result = """"
+    for s in strings:
+        result += s
+    return result
+```",1.0,True,
+1.5b,humaneval,HumanEval/33,"```python
+from typing import *
+from collections import *
+
+def sort_third(l: List[int]) -> List[int]:
+    """"""This function takes a list l and returns a list l' such that
+    l' is identical to l in the indicies that are not divisible by three, while its values at the indicies that are divisible by three are equal
+    to the values of the corresponding indicies of l, but sorted.
+    >>> sort_third([1, 2, 3])
+    [1, 2, 3]
+    >>> sort_third([5, 6, 3, 4, 8, 9, 2])
+    [2, 6, 3, 4, 8, 9, 5]
+    """"""
+    # Extract elements at indices divisible by 3
+    third_elements = [l[i] for i in range(0, len(l), 3)]
+    
+    # Sort the extracted elements
+    third_elements.sort()
+    
+    # Create a new list with sorted elements at indices divisible by 3
+    result = [third_elements[i // 3] if i % 3 == 0 else l[i] for i in range(len(l))]
+    
+    return result
+```",1.0,True,
+1.5b,humaneval,HumanEval/35,"```python
+from typing import List
+
+def max_element(l: List[int]) -> int:
+    """"""Return maximum element in the list.
+    >>> max_element([1, 2, 3])
+    3
+    >>> max_element([5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10])
+    123
+    """"""
+    if not l:
+        raise ValueError(""List is empty"")
+    
+    max_val = l[0]
+    for num in l[1:]:
+        if num > max_val:
+            max_val = num
+    
+    return max_val
+```",1.0,True,
+1.5b,humaneval,HumanEval/39,"```python
+from typing import *
+import math
+
+def prime_fib(n: int):
+    """"""
+    prime_fib returns n-th number that is a Fibonacci number and it's also prime.
+    >>> prime_fib(1)
+    2
+    >>> prime_fib(2)
+    3
+    >>> prime_fib(3)
+    5
+    >>> prime_fib(4)
+    13
+    >>> prime_fib(5)
+    89
+    """"""
+    def is_prime(num):
+        if num <= 1:
+            return False
+        for i in range(2, int(math.sqrt(num)) + 1):
+            if num % i == 0:
+                return False
+        return True
+
+    fib_sequence = [0, 1]
+    count = 2
+    while len(fib_sequence) < n:
+        next_fib = fib_sequence[-1] + fib_sequence[-2]
+        fib_sequence.append(next_fib)
+        if is_prime(next_fib):
+            count += 1
+
+    return fib_sequence[n-1]
+```",0.0,False,AssertionError
+1.5b,humaneval,HumanEval/40,"```python
+
+from typing import List
+
+def triples_sum_to_zero(l: List[int]) -> bool:
+    """"""
+    triples_sum_to_zero takes a list of integers as an input.
+    it returns True if there are three distinct elements in the list that
+    sum to zero, and False otherwise.
+
+    >>> triples_sum_to_zero([1, 3, 5, 0])
+    False
+    >>> triples_sum_to_zero([1, 3, -2, 1])
+    True
+    >>> triples_sum_to_zero([1, 2, 3, 7])
+    False
+    >>> triples_sum_to_zero([2, 4, -5, 3, 9, 7])
+    True
+    >>> triples_sum_to_zero([1])
+    False
+    """"""
+    l.sort()
+    for i in range(len(l) - 2):
+        left = i + 1
+        right = len(l) - 1
+        while left < right:
+            current_sum = l[i] + l[left] + l[right]
+            if current_sum == 0:
+                return True
+            elif current_sum < 0:
+                left += 1
+            else:
+                right -= 1
+    return False
+```",1.0,True,
+1.5b,humaneval,HumanEval/44,"```python
+
+from typing import *
+from collections import *
+
+def change_base(x: int, base: int):
+    """"""Change numerical base of input number x to base.
+    return string representation after the conversion.
+    base numbers are less than 10.
+    >>> change_base(8, 3)
+    '22'
+    >>> change_base(8, 2)
+    '1000'
+    >>> change_base(7, 2)
+    '111'
+    """"""
+    if base < 2 or base > 9:
+        raise ValueError(""Base must be between 2 and 9"")
+    
+    result = """"
+    while x > 0:
+        remainder = x % base
+        result = str(remainder) + result
+        x //= base
+    
+    return result
+```",1.0,True,
+1.5b,humaneval,HumanEval/45,"```python
+
+from typing import *
+from collections import *
+
+def triangle_area(a: float, h: float) -> float:
+    """"""Given length of a side and high return area for a triangle.
+    >>> triangle_area(5, 3)
+    7.5
+    """"""
+    return 0.5 * a * h
+```",1.0,True,
+1.5b,humaneval,HumanEval/48,"```python
+from typing import *
+from collections import *
+
+def is_palindrome(text: str) -> bool:
+    """"""
+    Checks if given string is a palindrome
+    >>> is_palindrome('')
+    True
+    >>> is_palindrome('aba')
+    True
+    >>> is_palindrome('aaaaa')
+    True
+    >>> is_palindrome('zbcd')
+    False
+    """"""
+    return text == text[::-1]
+```",1.0,True,
+1.5b,humaneval,HumanEval/50,"```python
+
+from typing import *
+from collections import *
+
+def encode_shift(s: str):
+    """"""
+    returns encoded string by shifting every character by 5 in the alphabet.
+    """"""
+    return """".join([chr(((ord(ch) + 5 - ord(""a"")) % 26) + ord(""a"")) for ch in s])
+
+def decode_shift(s: str):
+    """"""
+    takes as input string encoded with encode_shift function. Returns decoded string.
+    """"""
+    return """".join([chr(((ord(ch) - 5 - ord(""a"")) % 26) + ord(""a"")) for ch in s])
+```",1.0,True,
+1.5b,humaneval,HumanEval/55,"```python
+from typing import *
+from collections import *
+
+def fib(n: int):
+    """"""Return n-th Fibonacci number.
+    >>> fib(10)
+    55
+    >>> fib(1)
+    1
+    >>> fib(8)
+    21
+    """"""
+    if n <= 1:
+        return n
+    else:
+        a, b = 0, 1
+        for _ in range(2, n + 1):
+            a, b = b, a + b
+        return b
+```",1.0,True,
+1.5b,humaneval,HumanEval/56,"```python
+
+from typing import *
+from collections import *
+
+def correct_bracketing(brackets: str):
+    """""" brackets is a string of ""<"" and "">"".
+    return True if every opening bracket has a corresponding closing bracket.
+
+    >>> correct_bracketing(""<"")
+    False
+    >>> correct_bracketing(""<>"")
+    True
+    >>> correct_bracketing(""<<><>>"")
+    True
+    >>> correct_bracketing(""><<>"")
+    False
+    """"""
+    stack = []
+    for char in brackets:
+        if char == '<':
+            stack.append(char)
+        elif char == '>':
+            if not stack or stack.pop() != '<':
+                return False
+    return len(stack) == 0
+```",1.0,True,
+1.5b,humaneval,HumanEval/57,"```python
+
+from typing import *
+from collections import *
+
+def monotonic(l: List[int]) -> bool:
+    """"""Return True is list elements are monotonically increasing or decreasing.
+    >>> monotonic([1, 2, 4, 20])
+    True
+    >>> monotonic([1, 20, 4, 10])
+    False
+    >>> monotonic([4, 1, 0, -10])
+    True
+    """"""
+    if len(l) <= 1:
+        return True
+    
+    direction = None
+    for i in range(1, len(l)):
+        if direction is None:
+            if l[i] > l[i-1]:
+                direction = 'increasing'
+            elif l[i] < l[i-1]:
+                direction = 'decreasing'
+        else:
+            if direction == 'increasing' and l[i] < l[i-1]:
+                return False
+            elif direction == 'decreasing' and l[i] > l[i-1]:
+                return False
+    
+    return True
+```",1.0,True,
+1.5b,humaneval,HumanEval/58,"```python
+
+from typing import List
+
+def common(l1: List[int], l2: List[int]) -> List[int]:
+    """"""Return sorted unique common elements for two lists.
+    >>> common([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])
+    [1, 5, 653]
+    >>> common([5, 3, 2, 8], [3, 2])
+    [2, 3]
+    """"""
+    # Convert lists to sets to remove duplicates and find intersection
+    set1 = set(l1)
+    set2 = set(l2)
+    
+    # Find common elements and convert back to list
+    common_elements = list(set1.intersection(set2))
+    
+    # Sort the list of common elements
+    common_elements.sort()
+    
+    return common_elements
+```",1.0,True,
+1.5b,humaneval,HumanEval/59,"```python
+from typing import *
+import math
+
+def largest_prime_factor(n: int):
+    """"""Return the largest prime factor of n. Assume n > 1 and is not a prime.
+    >>> largest_prime_factor(13195)
+    29
+    >>> largest_prime_factor(2048)
+    2
+    """"""
+    # Start with the smallest prime number
+    largest_factor = -1
+    
+    # Divide n by 2 until it's odd
+    while n % 2 == 0:
+        largest_factor = 2
+        n //= 2
+    
+    # Now n must be odd, so we can skip one element (Note i = i + 2)
+    for i in range(3, int(math.sqrt(n)) + 1, 2):
+        # While i divides n, update largest_factor and divide n
+        while n % i == 0:
+            largest_factor = i
+            n //= i
+    
+    # If n is a prime number greater than 2
+    if n > 2:
+        largest_factor = n
+    
+    return largest_factor
+```",1.0,True,
+1.5b,humaneval,HumanEval/62,"```python
+from typing import List
+
+def derivative(xs: List[float]) -> List[float]:
+    """"""
+    xs represent coefficients of a polynomial.
+    xs[0] + xs[1] * x + xs[2] * x^2 + ....
+     Return derivative of this polynomial in the same form.
+    >>> derivative([3, 1, 2, 4, 5])
+    [1, 4, 12, 20]
+    >>> derivative([1, 2, 3])
+    [2, 6]
+    """"""
+    return [i * xs[i] for i in range(1, len(xs))]
+```",1.0,True,
+1.5b,humaneval,HumanEval/68,"```python
+from typing import List
+
+def pluck(arr: List[int]) -> List[int]:
+    if not arr:
+        return []
+
+    min_even = float('inf')
+    min_index = -1
+
+    for i, val in enumerate(arr):
+        if val % 2 == 0 and val < min_even:
+            min_even = val
+            min_index = i
+
+    if min_index == -1:
+        return []
+
+    return [min_even, min_index]
+```",1.0,True,
+1.5b,humaneval,HumanEval/70,"```python
+from typing import List
+
+def strange_sort_list(lst: List[int]) -> List[int]:
+    """"""
+    Given list of integers, return list in strange order.
+    Strange sorting, is when you start with the minimum value,
+    then maximum of the remaining integers, then minimum and so on.
+
+    Examples:
+    strange_sort_list([1, 2, 3, 4]) == [1, 4, 2, 3]
+    strange_sort_list([5, 5, 5, 5]) == [5, 5, 5, 5]
+    strange_sort_list([]) == []
+    """"""
+    sorted_lst = []
+    while lst:
+        # Append the smallest element
+        sorted_lst.append(min(lst))
+        # Remove the smallest element from the list
+        lst.remove(min(lst))
+        # If there are still elements left, append the largest element
+        if lst:
+            sorted_lst.append(max(lst))
+            # Remove the largest element from the list
+            lst.remove(max(lst))
+    return sorted_lst
+```",1.0,True,
+1.5b,humaneval,HumanEval/71,"```python
+import math
+
+def triangle_area(a, b, c):
+    """"""
+    Given the lengths of the three sides of a triangle. Return the area of
+    the triangle rounded to 2 decimal points if the three sides form a valid triangle. 
+    Otherwise return -1
+    Three sides make a valid triangle when the sum of any two sides is greater 
+    than the third side.
+    Example:
+    triangle_area(3, 4, 5) == 6.00
+    triangle_area(1, 2, 10) == -1
+    """"""
+    # Check if the sides form a valid triangle
+    if a + b <= c or a + c <= b or b + c <= a:
+        return -1
+    
+    # Calculate the semi-perimeter
+    s = (a + b + c) / 2
+    
+    # Calculate the area using Heron's formula
+    area = math.sqrt(s * (s - a) * (s - b) * (s - c))
+    
+    # Round the area to 2 decimal points
+    return round(area, 2)
+```",1.0,True,
+1.5b,humaneval,HumanEval/77,"```python
+import math
+
+def iscube(a):
+    """"""
+    Write a function that takes an integer a and returns True 
+    if this ingeger is a cube of some integer number.
+    Note: you may assume the input is always valid.
+    Examples:
+    iscube(1) ==> True
+    iscube(2) ==> False
+    iscube(-1) ==> True
+    iscube(64) ==> True
+    iscube(0) ==> True
+    iscube(180) ==> False
+    """"""
+    # Check if the absolute value of a is a perfect cube
+    root = round(math.pow(abs(a), 1/3))
+    return abs(root**3 - a) < 1e-9
+```",0.0,False,AssertionError: Third test error: False
+1.5b,humaneval,HumanEval/86,"```python
+import re
+
+def anti_shuffle(s):
+    """"""
+    Write a function that takes a string and returns an ordered version of it.
+    Ordered version of string, is a string where all words (separated by space)
+    are replaced by a new word where all the characters arranged in
+    ascending order based on ascii value.
+    Note: You should keep the order of words and blank spaces in the sentence.
+
+    For example:
+    anti_shuffle('Hi') returns 'Hi'
+    anti_shuffle('hello') returns 'ehllo'
+    anti_shuffle('Hello World!!!') returns 'Hello !!!Wdlor'
+    """"""
+    # Split the string into words
+    words = s.split()
+    
+    # Sort each word alphabetically
+    sorted_words = [sorted(word) for word in words]
+    
+    # Join the sorted words back into a string
+    ordered_string = ' '.join(sorted_words)
+    
+    return ordered_string
+```",0.0,False,"TypeError: sequence item 0: expected str instance, list found"
+1.5b,humaneval,HumanEval/87,"```python
+from typing import List, Tuple
+
+def get_row(lst: List[List[int]], x: int) -> List[Tuple[int, int]]:
+    result = []
+    for i, row in enumerate(lst):
+        if x in row:
+            result.append((i, row.index(x)))
+    result.sort(key=lambda x: (x[0], -x[1]))
+    return result
+```",0.0,False,AssertionError
+1.5b,humaneval,HumanEval/93,"```python
+import string
+
+def encode(message):
+    """"""
+    Write a function that takes a message, and encodes in such a 
+    way that it swaps case of all letters, replaces all vowels in 
+    the message with the letter that appears 2 places ahead of that 
+    vowel in the english alphabet. 
+    Assume only letters. 
+    
+    Examples:
+    >>> encode('test')
+    'TGST'
+    >>> encode('This is a message')
+    'tHKS KS C MGSSCGG'
+    """"""
+    
+    # Define the mapping for vowels and their replacements
+    vowel_mapping = {
+        'a': 'c', 'e': 'g', 'i': 'k', 'o': 'q', 'u': 'w',
+        'A': 'C', 'E': 'G', 'I': 'K', 'O': 'Q', 'U': 'W'
+    }
+    
+    # Swap case and replace vowels
+    encoded_message = ''.join(
+        char.swapcase() if char.isalpha() else char
+        for char in message
+        if char.lower() not in vowel_mapping
+    )
+    
+    # Replace vowels with their replacements
+    for vowel, replacement in vowel_mapping.items():
+        encoded_message = encoded_message.replace(vowel, replacement)
+    
+    return encoded_message
+```",0.0,False,AssertionError: This prints if this assert fails 1 (good for debugging!)
+1.5b,humaneval,HumanEval/97,"```python
+from typing import *
+from collections import *
+
+def multiply(a: int, b: int) -> int:
+    """"""Complete the function that takes two integers and returns 
+    the product of their unit digits.
+    Assume the input is always valid.
+    Examples:
+    multiply(148, 412) should return 16.
+    multiply(19, 28) should return 72.
+    multiply(2020, 1851) should return 0.
+    multiply(14,-15) should return 20.
+    """"""
+    # Extract the unit digit of each number
+    unit_digit_a = abs(a) % 10
+    unit_digit_b = abs(b) % 10
+    
+    # Multiply the unit digits
+    result = unit_digit_a * unit_digit_b
+    
+    return result
+```",1.0,True,
+1.5b,humaneval,HumanEval/103,"```python
+from typing import *
+import math
+
+def rounded_avg(n: int, m: int) -> str:
+    if n > m:
+        return -1
+    
+    total = sum(range(n, m + 1))
+    avg = round(total / (m - n + 1))
+    
+    return bin(avg)[2:]
+```",0.0,False,AssertionError
+1.5b,humaneval,HumanEval/107,"```python
+from typing import Tuple
+
+def even_odd_palindrome(n: int) -> Tuple[int, int]:
+    def is_palindrome(num: int) -> bool:
+        return str(num) == str(num)[::-1]
+
+    even_count = 0
+    odd_count = 0
+
+    for i in range(1, n + 1):
+        if is_palindrome(i):
+            if i % 2 == 0:
+                even_count += 1
+            else:
+                odd_count += 1
+
+    return even_count, odd_count
+```",1.0,True,
+1.5b,humaneval,HumanEval/108,"```python
+from typing import List
+
+def count_nums(arr: List[int]) -> int:
+    def sum_of_digits(n: int) -> int:
+        if n < 0:
+            return -sum(int(digit) for digit in str(abs(n)))
+        else:
+            return sum(int(digit) for digit in str(n))
+
+    return sum(1 for num in arr if sum_of_digits(num) > 0)
+```",0.0,False,AssertionError
+1.5b,humaneval,HumanEval/114,"```python
+from typing import List
+
+def minSubArraySum(nums: List[int]) -> int:
+    if not nums:
+        return 0
+    
+    current_sum = nums[0]
+    min_sum = nums[0]
+    
+    for num in nums[1:]:
+        current_sum = min(num, current_sum + num)
+        min_sum = min(min_sum, current_sum)
+    
+    return min_sum
+```",1.0,True,
+1.5b,humaneval,HumanEval/129,"```python
+from typing import List
+
+def minPath(grid: List[List[int]], k: int) -> List[int]:
+    n = len(grid)
+    directions = [(0, 1), (1, 0), (-1, 0), (0, -1)]
+    
+    def dfs(x, y, path, steps):
+        if steps == k:
+            return path
+        
+        min_path = []
+        for dx, dy in directions:
+            nx, ny = x + dx, y + dy
+            if 0 <= nx < n and 0 <= ny < n:
+                new_path = dfs(nx, ny, path + [grid[nx][ny]], steps + 1)
+                if not min_path or new_path < min_path:
+                    min_path = new_path
+        
+        return min_path
+    
+    min_path = None
+    for i in range(n):
+        for j in range(n):
+            result = dfs(i, j, [grid[i][j]], 1)
+            if not min_path or result < min_path:
+                min_path = result
+    
+    return min_path
+```",1.0,True,
+1.5b,humaneval,HumanEval/135,"```python
+from typing import List
+
+def can_arrange(arr: List[int]) -> int:
+    for i in range(1, len(arr)):
+        if arr[i] < arr[i-1]:
+            return i
+    return -1
+```",0.0,False,AssertionError
+1.5b,humaneval,HumanEval/138,"```python
+from typing import *
+from collections import *
+
+def is_equal_to_sum_even(n: int) -> bool:
+    """"""
+    Evaluate whether the given number n can be written as the sum of exactly 4 positive even numbers
+    Example
+    is_equal_to_sum_even(4) == False
+    is_equal_to_sum_even(6) == False
+    is_equal_to_sum_even(8) == True
+    """"""
+    if n % 2 != 0 or n < 8:
+        return False
+    # Since each even number is at least 2, we need to find three more even numbers that add up to n - 6
+    # The smallest possible sum of three even numbers is 2 + 2 + 2 = 6
+    # Therefore, n - 6 must be greater than or equal to 6
+    return (n - 6) >= 6
+```",0.0,False,AssertionError
+1.5b,humaneval,HumanEval/139,"```python
+from math import factorial
+
+def special_factorial(n):
+    """"""The Brazilian factorial is defined as:
+    brazilian_factorial(n) = n! * (n-1)! * (n-2)! * ... * 1!
+    where n > 0
+
+    For example:
+    >>> special_factorial(4)
+    288
+
+    The function will receive an integer as input and should return the special
+    factorial of this integer.
+    """"""
+    result = 1
+    for i in range(1, n + 1):
+        result *= factorial(i)
+    return result
+```",1.0,True,
+1.5b,humaneval,HumanEval/143,"```python
+from typing import List
+
+def words_in_sentence(sentence: str) -> str:
+    """"""
+    You are given a string representing a sentence,
+    the sentence contains some words separated by a space,
+    and you have to return a string that contains the words from the original sentence,
+    whose lengths are prime numbers,
+    the order of the words in the new string should be the same as the original one.
+
+    Example 1:
+        Input: sentence = ""This is a test""
+        Output: ""is""
+
+    Example 2:
+        Input: sentence = ""lets go for swimming""
+        Output: ""go for""
+
+    Constraints:
+        * 1 <= len(sentence) <= 100
+        * sentence contains only letters
+    """"""
+    
+    def is_prime(n: int) -> bool:
+        if n <= 1:
+            return False
+        if n == 2:
+            return True
+        if n % 2 == 0:
+            return False
+        i = 3
+        while i * i <= n:
+            if n % i == 0:
+                return False
+            i += 2
+        return True
+    
+    words = sentence.split()
+    prime_words = [word for word in words if is_prime(len(word))]
+    return ' '.join(prime_words)
+```",1.0,True,
+1.5b,humaneval,HumanEval/148,"```python
+from typing import Tuple
+
+def bf(planet1: str, planet2: str) -> Tuple[str]:
+    """"""
+    There are eight planets in our solar system: the closerst to the Sun 
+    is Mercury, the next one is Venus, then Earth, Mars, Jupiter, Saturn, 
+    Uranus, Neptune.
+    Write a function that takes two planet names as strings planet1 and planet2. 
+    The function should return a tuple containing all planets whose orbits are 
+    located between the orbit of planet1 and the orbit of planet2, sorted by 
+    the proximity to the sun. 
+    The function should return an empty tuple if planet1 or planet2
+    are not correct planet names. 
+    Examples
+    bf(""Jupiter"", ""Neptune"") ==> (""Saturn"", ""Uranus"")
+    bf(""Earth"", ""Mercury"") ==> (""Venus"")
+    bf(""Mercury"", ""Uranus"") ==> (""Venus"", ""Earth"", ""Mars"", ""Jupiter"", ""Saturn"")
+    """"""
+    planets = [""Mercury"", ""Venus"", ""Earth"", ""Mars"", ""Jupiter"", ""Saturn"", ""Uranus"", ""Neptune""]
+    
+    if planet1 not in planets or planet2 not in planets:
+        return ()
+    
+    index1 = planets.index(planet1)
+    index2 = planets.index(planet2)
+    
+    if index1 > index2:
+        index1, index2 = index2, index1
+    
+    return tuple(planets[index1+1:index2])
+```",1.0,True,
+1.5b,humaneval,HumanEval/149,"```python
+from typing import List
+
+def sorted_list_sum(lst: List[str]) -> List[str]:
+    # Filter out strings with odd lengths
+    even_length_strings = [s for s in lst if len(s) % 2 == 0]
+    
+    # Sort the filtered list by length and then alphabetically
+    sorted_even_length_strings = sorted(even_length_strings, key=lambda x: (len(x), x))
+    
+    return sorted_even_length_strings
+```",1.0,True,
+1.5b,humaneval,HumanEval/151,"```python
+from typing import List
+
+def double_the_difference(lst: List[int]) -> int:
+    """"""
+    Given a list of numbers, return the sum of squares of the numbers
+    in the list that are odd. Ignore numbers that are negative or not integers.
+    
+    double_the_difference([1, 3, 2, 0]) == 1 + 9 + 0 + 0 = 10
+    double_the_difference([-1, -2, 0]) == 0
+    double_the_difference([9, -2]) == 81
+    double_the_difference([0]) == 0  
+   
+    If the input list is empty, return 0.
+    """"""
+    return sum(x**2 for x in lst if isinstance(x, int) and x > 0 and x % 2 != 0)
+```",1.0,True,
+1.5b,humaneval,HumanEval/152,"```python
+from typing import List
+
+def compare(game: List[int], guess: List[int]) -> List[int]:
+    """"""
+    I think we all remember that feeling when the result of some long-awaited
+    event is finally known. The feelings and thoughts you have at that moment are
+    definitely worth noting down and comparing.
+    Your task is to determine if a person correctly guessed the results of a number of matches.
+    You are given two arrays of scores and guesses of equal length, where each index shows a match. 
+    Return an array of the same length denoting how far off each guess was. If they have guessed correctly,
+    the value is 0, and if not, the value is the absolute difference between the guess and the score.
+    
+    example:
+
+    compare([1,2,3,4,5,1],[1,2,3,4,2,-2]) -> [0,0,0,0,3,3]
+    compare([0,5,0,0,0,4],[4,1,1,0,0,-2]) -> [4,4,1,0,0,6]
+    """"""
+    return [abs(a - b) for a, b in zip(guess, game)]
+```",1.0,True,
+1.5b,humaneval,HumanEval/155,"```python
+from typing import Tuple
+
+def even_odd_count(num: int) -> Tuple[int, int]:
+    """"""
+    Given an integer. return a tuple that has the number of even and odd digits respectively.
+
+    Example:
+        even_odd_count(-12) ==> (1, 1)
+        even_odd_count(123) ==> (1, 2)
+    """"""
+    num_str = str(abs(num))
+    even_count = sum(1 for digit in num_str if int(digit) % 2 == 0)
+    odd_count = len(num_str) - even_count
+    return even_count, odd_count
+```",1.0,True,
+1.5b,humaneval,HumanEval/156,"```python
+from typing import *
+from collections import *
+
+def int_to_mini_roman(number):
+    """"""
+    Given a positive integer, obtain its roman numeral equivalent as a string,
+    and return it in lowercase.
+    Restrictions: 1 <= num <= 1000
+
+    Examples:
+    >>> int_to_mini_roman(19) == 'xix'
+    >>> int_to_mini_roman(152) == 'clii'
+    >>> int_to_mini_roman(426) == 'cdxxvi'
+    """"""
+    # Define the mapping of integers to their corresponding Roman numerals
+    roman_numerals = [
+        (1000, 'm'), (900, 'cm'), (500, 'd'), (400, 'cd'),
+        (100, 'c'), (90, 'xc'), (50, 'l'), (40, 'xl'),
+        (10, 'x'), (9, 'ix'), (5, 'v'), (4, 'iv'), (1, 'i')
+    ]
+    
+    result = ''
+    for value, symbol in roman_numerals:
+        while number >= value:
+            result += symbol
+            number -= value
+    
+    return result.lower()
+```",1.0,True,
+1.5b,humaneval,HumanEval/161,"```python
+import re
+
+def solve(s):
+    """"""
+    You are given a string s.
+    if s[i] is a letter, reverse its case from lower to upper or vise versa, 
+    otherwise keep it as it is.
+    If the string contains no letters, reverse the string.
+    The function should return the resulted string.
+    Examples
+    solve(""1234"") = ""4321""
+    solve(""ab"") = ""AB""
+    solve(""#a@C"") = ""#A@c""
+    """"""
+    # Check if the string contains any letters
+    if not re.search('[a-zA-Z]', s):
+        # Reverse the string if no letters are present
+        return s[::-1]
+    
+    # Iterate through each character in the string
+    for i in range(len(s)):
+        # Check if the character is a letter
+        if s[i].isalpha():
+            # Reverse the case of the letter
+            s = s[:i] + s[i].swapcase() + s[i+1:]
+    
+    return s
+```",1.0,True,
+1.5b,humaneval,HumanEval/163,"```python
+from typing import List
+
+def generate_integers(a: int, b: int) -> List[int]:
+    """"""
+    Given two positive integers a and b, return the even digits between a
+    and b, in ascending order.
+
+    For example:
+    generate_integers(2, 8) => [2, 4, 6, 8]
+    generate_integers(8, 2) => [2, 4, 6, 8]
+    generate_integers(10, 14) => []
+    """"""
+    # Ensure a is less than or equal to b
+    if a > b:
+        a, b = b, a
+    
+    # Generate all numbers from a to b
+    numbers = list(range(a, b + 1))
+    
+    # Filter out odd numbers and convert to set for uniqueness
+    even_numbers = {num for num in numbers if num % 2 == 0}
+    
+    # Convert the set back to a sorted list
+    sorted_even_numbers = sorted(even_numbers)
+    
+    return sorted_even_numbers
+```",0.0,False,AssertionError: Test 1
+1.5b,mbpp,mbpp/12,"```python
+from typing import List
+
+def sort_matrix(matrix: List[List[int]]) -> List[List[int]]:
+    """"""
+    Sorts a given matrix in ascending order according to the sum of its rows.
+    
+    Args:
+    matrix (List[List[int]]): The matrix to be sorted.
+    
+    Returns:
+    List[List[int]]: The sorted matrix.
+    """"""
+    # Calculate the sum of each row
+    sums = [sum(row) for row in matrix]
+    
+    # Sort the indices based on the sum of their corresponding rows
+    sorted_indices = sorted(range(len(sums)), key=lambda i: sums[i])
+    
+    # Create a new matrix with sorted rows
+    sorted_matrix = [matrix[i] for i in sorted_indices]
+    
+    return sorted_matrix
+```",1.0,True,
+1.5b,mbpp,mbpp/19,"```python
+from typing import List
+
+def test_duplicate(arr: List[int]) -> bool:
+    """"""
+    Check if the given list contains any duplicate elements.
+
+    Args:
+    arr (List[int]): The list of integers to check for duplicates.
+
+    Returns:
+    bool: True if there is at least one duplicate element, False otherwise.
+    """"""
+    seen = set()
+    for num in arr:
+        if num in seen:
+            return True
+        seen.add(num)
+    return False
+```",1.0,True,
+1.5b,mbpp,mbpp/20,"```python
+def is_woodall(n):
+    """"""
+    Check if the given number is woodball or not.
+    
+    A woodball is defined as a number that can be expressed as the sum of two perfect squares.
+    
+    Parameters:
+    n (int): The number to check.
+    
+    Returns:
+    bool: True if the number is woodball, False otherwise.
+    """"""
+    # Helper function to check if a number is a perfect square
+    def is_perfect_square(x):
+        s = int(x**0.5)
+        return s*s == x
+    
+    # Iterate through all possible pairs of numbers
+    for i in range(1, int(n**0.5) + 1):
+        for j in range(i, int(n**0.5) + 1):
+            if is_perfect_square(i) and is_perfect_square(j):
+                if i + j == n:
+                    return True
+    return False
+```",0.0,False,AssertionError
+1.5b,mbpp,mbpp/56,"```python
+def check(n):
+    """"""
+    Check if a given number is one less than twice its reverse.
+    
+    Args:
+    n (int): The number to check.
+    
+    Returns:
+    bool: True if the condition is met, False otherwise.
+    """"""
+    # Convert the number to a string to easily reverse it
+    str_n = str(n)
+    # Reverse the string representation of the number
+    reversed_str_n = str_n[::-1]
+    # Convert the reversed string back to an integer
+    reversed_n = int(reversed_str_n)
+    # Calculate twice the reversed number minus one
+    result = 2 * reversed_n - 1
+    # Check if the original number equals this result
+    return n == result
+```",1.0,True,
+1.5b,mbpp,mbpp/61,"```python
+from typing import *
+from collections import *
+
+def count_Substrings(s: str) -> int:
+    """"""
+    Count the number of substrings with the sum of digits equal to their length.
+
+    Args:
+        s (str): The input string.
+
+    Returns:
+        int: The count of substrings meeting the criteria.
+    """"""
+    n = len(s)
+    count = 0
+    prefix_sum = [0] * (n + 1)
+    
+    for i in range(1, n + 1):
+        prefix_sum[i] = prefix_sum[i - 1] + int(s[i - 1])
+        
+        if prefix_sum[i] == i:
+            count += 1
+    
+    return count
+```",0.0,False,AssertionError
+1.5b,mbpp,mbpp/71,"```python
+from typing import List
+
+def comb_sort(arr: List[int]) -> List[int]:
+    gap = len(arr)
+    shrink_factor = 1.3
+    swapped = True
+
+    while gap > 1 or swapped:
+        gap = int(gap / shrink_factor)
+        if gap < 1:
+            gap = 1
+
+        swapped = False
+        for i in range(0, len(arr) - gap):
+            if arr[i] > arr[i + gap]:
+                arr[i], arr[i + gap] = arr[i + gap], arr[i]
+                swapped = True
+
+    return arr
+```",1.0,True,
+1.5b,mbpp,mbpp/72,"```python
+def dif_Square(n):
+    """"""
+    Check if the given number n can be represented as the difference of two squares.
+
+    Args:
+    n (int): The number to check.
+
+    Returns:
+    bool: True if n can be represented as the difference of two squares, False otherwise.
+    """"""
+    # A number can be expressed as the difference of two squares if and only if it is not of the form 4k+2 for some integer k.
+    return n % 4 != 2
+```",1.0,True,
+1.5b,mbpp,mbpp/77,"```python
+def is_Diff(n):
+    """"""
+    Check if a given number is divisible by 11 using the alternating sum method.
+    
+    Args:
+    n (int): The number to check.
+    
+    Returns:
+    bool: True if the number is divisible by 11, False otherwise.
+    """"""
+    # Calculate the alternating sum of digits
+    alternate_sum = sum(int(digit) * (-1)**i for i, digit in enumerate(str(n)))
+    
+    # Check if the absolute value of the alternating sum is divisible by 11
+    return abs(alternate_sum) % 11 == 0
+```",1.0,True,
+1.5b,mbpp,mbpp/88,"```python
+from collections import Counter
+
+def freq_count(lst):
+    """"""
+    Returns a dictionary with the frequency of each element in the given list.
+    
+    Args:
+    lst (list): The input list of elements.
+    
+    Returns:
+    dict: A dictionary where keys are the unique elements from the list and values are their frequencies.
+    """"""
+    return dict(Counter(lst))
+```",1.0,True,
+1.5b,mbpp,mbpp/92,"```python
+def is_undulating(n):
+    """"""
+    Check if the given number is undulating.
+
+    Args:
+    n (int): The number to check.
+
+    Returns:
+    bool: True if the number is undulating, False otherwise.
+    """"""
+    # Convert the number to a string for easier manipulation
+    num_str = str(n)
+    
+    # Check if the length of the number is less than 3
+    if len(num_str) < 3:
+        return False
+    
+    # Iterate through the digits of the number
+    for i in range(len(num_str) - 1):
+        # If the current digit is different from the next one, it's not undulating
+        if num_str[i] != num_str[i + 1]:
+            return False
+    
+    # If all digits are the same, it's undulating
+    return True
+```",0.0,False,AssertionError
+1.5b,mbpp,mbpp/93,"```python
+def power(a, b):
+    """"""
+    Calculate the value of 'a' raised to the power 'b'.
+
+    Args:
+    a (int): The base number.
+    b (int): The exponent.
+
+    Returns:
+    int: The result of 'a' raised to the power 'b'.
+    """"""
+    if b == 0:
+        return 1
+    elif b < 0:
+        return 1 / power(a, -b)
+    else:
+        result = 1
+        for _ in range(b):
+            result *= a
+        return result
+```",1.0,True,
+1.5b,mbpp,mbpp/103,"```python
+from math import factorial
+
+def eulerian_num(n, m):
+    """"""
+    Calculate the Eulerian number a(n, m).
+
+    Args:
+    n (int): The upper bound of the sequence.
+    m (int): The position within the sequence.
+
+    Returns:
+    int: The Eulerian number a(n, m).
+    """"""
+    if m > n or m < 0:
+        raise ValueError(""Invalid input values for n and m."")
+    
+    # Base cases
+    if m == 0:
+        return 1
+    if m == 1:
+        return n
+    
+    # Recursive formula
+    return ((n - m) * eulerian_num(n - 1, m - 1)) + (m * eulerian_num(n - 1, m))
+
+# Test cases
+assert eulerian_num(3, 1) == 4
+assert eulerian_num(4, 1) == 11
+assert eulerian_num(5, 3) == 26
+```",0.0,False,AssertionError
+1.5b,mbpp,mbpp/109,"```python
+def odd_Equivalent(binary_string, rotations):
+    """"""
+    Find the number of numbers with an odd value when rotating a binary string the given number of times.
+
+    Args:
+    binary_string (str): The binary string to rotate.
+    rotations (int): The number of times to rotate the binary string.
+
+    Returns:
+    int: The count of numbers with an odd value after rotation.
+    """"""
+    # Convert the binary string to an integer for easier manipulation
+    num = int(binary_string, 2)
+    
+    # Initialize the count of odd numbers
+    odd_count = 0
+    
+    # Perform the rotations
+    for _ in range(rotations):
+        # Rotate the binary string by shifting it one position to the left
+        num = (num << 1) & 0xFFFFFFFF
+        
+        # Check if the resulting number is odd
+        if num % 2 != 0:
+            odd_count += 1
+    
+    return odd_count
+```",0.0,False,AssertionError
+1.5b,mbpp,mbpp/111,"```python
+from typing import List
+
+def common_in_nested_lists(nested_lists: List[List[int]]) -> Set[int]:
+    """"""
+    Find the common elements in given nested lists.
+
+    Args:
+        nested_lists: A list of lists containing integers.
+
+    Returns:
+        A set containing the common elements found in all nested lists.
+    """"""
+    if not nested_lists:
+        return set()
+    
+    # Initialize the first list as the reference for comparison
+    common_elements = set(nested_lists[0])
+    
+    # Iterate over the remaining nested lists
+    for sublist in nested_lists[1:]:
+        # Update the common_elements set with the intersection of current sublist and common_elements
+        common_elements &= set(sublist)
+        
+        # If the common_elements set becomes empty, no further intersection is needed
+        if not common_elements:
+            break
+    
+    return common_elements
+```",0.0,False,NameError: name 'Set' is not defined. Did you mean: 'set'?
+1.5b,mbpp,mbpp/113,"```python
+def check_integer(s):
+    """"""
+    Check if a string represents an integer or not.
+
+    Args:
+        s (str): The string to check.
+
+    Returns:
+        bool: True if the string is an integer, False otherwise.
+    """"""
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
+```",1.0,True,
+1.5b,mbpp,mbpp/116,"```python
+def tuple_to_int(tup):
+    """"""
+    Convert a given tuple of positive integers into a single integer.
+
+    Args:
+    tup (tuple): A tuple containing positive integers.
+
+    Returns:
+    int: The single integer formed by concatenating the elements of the tuple.
+    """"""
+    # Initialize the result variable to 0
+    result = 0
+    
+    # Iterate over each element in the tuple
+    for num in tup:
+        # Multiply the current result by 10 and add the current number
+        result = result * 10 + num
+    
+    # Return the final result
+    return result
+```",1.0,True,
+1.5b,mbpp,mbpp/119,"```python
+from typing import List
+
+def search(arr: List[int]) -> int:
+    """"""
+    Find the element that appears only once in a sorted array.
+    
+    Args:
+    arr (List[int]): A sorted list of integers where all elements except one appear twice.
+    
+    Returns:
+    int: The element that appears only once in the array.
+    """"""
+    left, right = 0, len(arr) - 1
+    
+    while left < right:
+        mid = (left + right) // 2
+        
+        # Check if mid is even or odd
+        if mid % 2 == 0:
+            # If mid is even, check the next element
+            if arr[mid] == arr[mid + 1]:
+                left = mid + 2
+            else:
+                right = mid
+        else:
+            # If mid is odd, check the previous element
+            if arr[mid] == arr[mid - 1]:
+                left = mid + 1
+            else:
+                right = mid - 1
+                
+    return arr[left]
+```",1.0,True,
+1.5b,mbpp,mbpp/129,"```python
+def magic_square_test(matrix):
+    """"""
+    Check if the given matrix is a magic square.
+    
+    Args:
+    matrix: A list of lists representing the matrix.
+    
+    Returns:
+    True if the matrix is a magic square, False otherwise.
+    """"""
+    n = len(matrix)
+    # Calculate the sum of the first row to use as the target sum for each row, column, and diagonal
+    target_sum = sum(matrix[0])
+    
+    # Check rows
+    for i in range(n):
+        if sum(matrix[i]) != target_sum:
+            return False
+    
+    # Check columns
+    for j in range(n):
+        if sum([matrix[i][j] for i in range(n)]) != target_sum:
+            return False
+    
+    # Check diagonals
+    if sum([matrix[i][i] for i in range(n)]) != target_sum or sum([matrix[i][n-i-1] for i in range(n)]) != target_sum:
+        return False
+    
+    return True
+```",1.0,True,
+1.5b,mbpp,mbpp/130,"```python
+from collections import Counter
+
+def max_occurrences(lst):
+    """"""
+    Find the item with maximum frequency in a given list.
+
+    Args:
+    lst: A list of items.
+
+    Returns:
+    The item with the highest frequency in the list.
+    """"""
+    # Count the occurrences of each item in the list
+    counts = Counter(lst)
+    
+    # Find the item with the maximum count
+    max_item = counts.most_common(1)[0][0]
+    
+    return max_item
+```",1.0,True,
+1.5b,mbpp,mbpp/162,"```python
+def sum_series(n):
+    """"""
+    Calculate the sum of the series (n - 2*i) from i=0 to n // 2.
+    
+    Args:
+    n (int): The upper limit of the series.
+    
+    Returns:
+    int: The sum of the series.
+    """"""
+    total_sum = 0
+    for i in range(n // 2 + 1):
+        total_sum += n - 2 * i
+    return total_sum
+```",1.0,True,
+1.5b,mbpp,mbpp/163,"```python
+import math
+
+def area_polygon(side_length, num_sides):
+    """"""
+    Calculate the area of a regular polygon given the length of each side and the number of sides.
+    
+    Args:
+    side_length (float): The length of each side of the polygon.
+    num_sides (int): The number of sides of the polygon.
+    
+    Returns:
+    float: The area of the polygon.
+    """"""
+    # Formula for the area of a regular polygon: (num_sides * side_length^2) / (4 * tan(pi / num_sides))
+    area = (num_sides * side_length ** 2) / (4 * math.tan(math.pi / num_sides))
+    return area
+```",0.0,False,AssertionError
+1.5b,mbpp,mbpp/235,"```python
+def even_bit_set_number(n):
+    """"""
+    Set all even bits of a given number.
+
+    Args:
+        n (int): The input number whose even bits are to be set.
+
+    Returns:
+        int: The modified number with all even bits set.
+    """"""
+    # Initialize the result to 0
+    result = 0
+    
+    # Iterate over each bit position from 0 to the number of bits in n
+    for i in range(32):  # Assuming a 32-bit integer for simplicity
+        # Check if the current bit is even
+        if i % 2 == 0:
+            # Set the corresponding bit in the result
+            result |= (1 << i)
+    
+    # XOR the original number with the result to set all even bits
+    return n ^ result
+```",0.0,False,AssertionError
+1.5b,mbpp,mbpp/237,"```python
+from typing import List, Tuple
+
+def check_occurrences(tuples_list: List[Tuple[int]]) -> dict:
+    """"""
+    Takes in a list of tuples and returns a dictionary mapping each unique tuple to the number of times it occurs in the list.
+    
+    :param tuples_list: List of tuples to be analyzed
+    :return: Dictionary with tuples as keys and their occurrence counts as values
+    """"""
+    occurrences = {}
+    for tup in tuples_list:
+        if tup in occurrences:
+            occurrences[tup] += 1
+        else:
+            occurrences[tup] = 1
+    return occurrences
+```",0.0,False,NameError: name 'check_occurences' is not defined. Did you mean: 'check_occurrences'?
+1.5b,mbpp,mbpp/245,"```python
+from typing import List
+
+def max_sum(arr: List[int]) -> int:
+    n = len(arr)
+    
+    # Initialize dp arrays
+    inc = [arr[i] for i in range(n)]
+    dec = [arr[i] for i in range(n)]
+    
+    # Fill up the inc array
+    for i in range(1, n):
+        for j in range(i):
+            if arr[j] < arr[i]:
+                inc[i] = max(inc[i], inc[j] + arr[i])
+    
+    # Fill up the dec array
+    for i in range(n-2, -1, -1):
+        for j in range(i+1, n):
+            if arr[j] < arr[i]:
+                dec[i] = max(dec[i], dec[j] + arr[i])
+    
+    # Find the maximum sum of bitonic subsequence
+    max_sum = 0
+    for i in range(n):
+        max_sum = max(max_sum, inc[i] + dec[i] - arr[i])
+    
+    return max_sum
+```",1.0,True,
+1.5b,mbpp,mbpp/262,"```python
+def split_two_parts(lst, L):
+    """"""
+    Splits the given list into two parts where the length of the first part is L,
+    and returns the resulting lists in a tuple.
+    
+    :param lst: List to be split
+    :param L: Length of the first part of the list
+    :return: A tuple containing the two parts of the list
+    """"""
+    if len(lst) < L:
+        raise ValueError(""List length must be greater than or equal to L"")
+    
+    return lst[:L], lst[L:]
+```",1.0,True,
+1.5b,mbpp,mbpp/273,"```python
+def substract_elements(tuple1: tuple, tuple2: tuple) -> tuple:
+    """"""
+    Subtracts the elements of the first tuple by the elements of the second tuple with the same index.
+
+    Args:
+        tuple1 (tuple): The first tuple from which elements will be subtracted.
+        tuple2 (tuple): The second tuple containing elements to subtract from the first tuple.
+
+    Returns:
+        tuple: A new tuple containing the results of the subtraction.
+    """"""
+    result = tuple(a - b for a, b in zip(tuple1, tuple2))
+    return result
+```",1.0,True,
+1.5b,mbpp,mbpp/278,"```python
+def count_first_elements(tup):
+    """"""
+    Count the number of elements that occur before the first tuple element in the given tuple.
+
+    Args:
+    tup (tuple): The input tuple containing integers and possibly nested tuples.
+
+    Returns:
+    int: The count of elements before the first tuple element.
+    """"""
+    # Initialize a counter for the elements before the first tuple
+    count = 0
+    
+    # Iterate through the tuple
+    for item in tup:
+        if isinstance(item, tuple):
+            break  # Break the loop when a tuple is encountered
+        count += 1
+    
+    return count
+```",1.0,True,
+1.5b,mbpp,mbpp/285,"```python
+def text_match_two_three(text):
+    """"""
+    Checks if the input string contains the 'a' character followed by two or three 'b' characters.
+
+    Args:
+    text (str): The string to be checked.
+
+    Returns:
+    bool: True if the condition is met, False otherwise.
+    """"""
+    # Check if the string starts with 'a' and then has 2 or 3 'b's
+    return text.startswith('a') and (text[1] == 'b' and text[2] == 'b') or (text[1] == 'b' and text[2] == 'b' and text[3] == 'b')
+```",1.0,True,
+1.5b,mbpp,mbpp/286,"```python
+from typing import List
+
+def max_sub_array_sum_repeated(arr: List[int], k: int, n: int) -> int:
+    """"""
+    Finds the largest sum of a contiguous subarray in the modified array which is formed by repeating the given array k times.
+    
+    Parameters:
+    arr (List[int]): The input array.
+    k (int): The number of times the array should be repeated.
+    n (int): The length of the original array.
+    
+    Returns:
+    int: The maximum sum of a contiguous subarray in the modified array.
+    """"""
+    # Calculate the total length of the modified array
+    total_length = n * k
+    
+    # Initialize variables to keep track of the current sum and the maximum sum found so far
+    current_sum = 0
+    max_sum = float('-inf')
+    
+    # Iterate through each element in the modified array
+    for i in range(total_length):
+        # Update the current sum by adding the current element
+        current_sum += arr[i % n]
+        
+        # If the current sum becomes negative, reset it to zero
+        if current_sum < 0:
+            current_sum = 0
+        
+        # Update the maximum sum if the current sum is greater
+        max_sum = max(max_sum, current_sum)
+    
+    return max_sum
+```",0.0,False,AssertionError
+1.5b,mbpp,mbpp/291,"```python
+from typing import *
+from collections import *
+
+def count_no_of_ways(n: int, k: int) -> int:
+    """"""
+    Calculate the number of ways to paint a fence with n posts using k colors,
+    ensuring that no two adjacent posts have the same color.
+    
+    Args:
+    n (int): The total number of posts.
+    k (int): The number of available colors.
+    
+    Returns:
+    int: The number of valid painting arrangements.
+    """"""
+    if n == 0:
+        return 0
+    
+    # Initialize base cases
+    if n == 1:
+        return k
+    
+    # Initialize arrays to store intermediate results
+    prev_prev = k
+    prev = k * (k - 1)
+    
+    # Calculate the number of ways for each post
+    for _ in range(2, n):
+        current = (prev + prev_prev) * (k - 1)
+        prev_prev = prev
+        prev = current
+    
+    return prev
+```",0.0,False,AssertionError
+1.5b,mbpp,mbpp/306,"```python
+from typing import List
+
+def max_sum_increasing_subseq(nums: List[int], n: int, k: int, m: int) -> int:
+    """"""
+    Finds the maximum sum of increasing subsequences from prefix until ith index and also including a given kth element which is after i, i.e., k > i.
+    
+    Args:
+    nums (List[int]): The list of integers.
+    n (int): The length of the list.
+    k (int): The index of the element after which the kth element should be included.
+    m (int): The index of the element to include in the subsequence.
+    
+    Returns:
+    int: The maximum sum of the increasing subsequence.
+    """"""
+    if k >= n or m >= n:
+        return 0
+    
+    # Initialize the dp array with zeros
+    dp = [0] * n
+    
+    # Fill the dp array
+    for i in range(n):
+        for j in range(i + 1, n):
+            if nums[i] < nums[j]:
+                dp[j] = max(dp[j], dp[i] + nums[j])
+    
+    # Find the maximum sum including the kth element
+    max_sum = 0
+    for i in range(k + 1, m + 1):
+        max_sum = max(max_sum, dp[i])
+    
+    return max_sum
+```",0.0,False,AssertionError
+1.5b,mbpp,mbpp/388,"```python
+def highest_Power_of_2(n):
+    """"""
+    Find the highest power of 2 that is less than or equal to n.
+
+    Args:
+    n (int): The number to find the highest power of 2 for.
+
+    Returns:
+    int: The highest power of 2 less than or equal to n.
+    """"""
+    # Initialize the result variable
+    result = 1
+    
+    # Loop until the current result is greater than n
+    while result * 2 <= n:
+        result *= 2
+    
+    return result
+```",1.0,True,
+1.5b,mbpp,mbpp/393,"```python
+def max_length_list(lst):
+    """"""
+    Find the list with the maximum length from a given list of lists.
+
+    Args:
+    lst: A list of lists.
+
+    Returns:
+    A tuple containing the length of the longest list and the longest list itself.
+    """"""
+    if not lst:
+        return 0, []
+    
+    max_len = len(lst[0])
+    max_list = lst[0]
+    
+    for sublist in lst[1:]:
+        if len(sublist) > max_len:
+            max_len = len(sublist)
+            max_list = sublist
+    
+    return max_len, max_list
+```",1.0,True,
+1.5b,mbpp,mbpp/394,"```python
+def check_distinct(tup):
+    """"""
+    Check if the given tuple contains no duplicates.
+
+    Args:
+    tup: A tuple of elements.
+
+    Returns:
+    True if the tuple contains no duplicates, False otherwise.
+    """"""
+    seen = set()
+    for element in tup:
+        if element in seen:
+            return False
+        seen.add(element)
+    return True
+```",1.0,True,
+1.5b,mbpp,mbpp/398,"```python
+from typing import List
+
+def sum_of_digits(numbers: List[int]) -> int:
+    """"""
+    Compute the sum of digits of each number in the given list.
+
+    Args:
+        numbers: A list of integers.
+
+    Returns:
+        The sum of all digits in the list.
+    """"""
+    total_sum = 0
+    for num in numbers:
+        if isinstance(num, int):
+            total_sum += sum(int(digit) for digit in str(abs(num)))
+        elif isinstance(num, list):
+            total_sum += sum(sum(int(digit) for digit in str(abs(sub_num))) for sub_num in num)
+    return total_sum
+```",0.0,False,TypeError: bad operand type for abs(): 'str'
+1.5b,mbpp,mbpp/405,"```python
+def check_tuplex(tup, x):
+    """"""
+    Check if an element 'x' exists within the given tuple 'tup'.
+
+    Parameters:
+    tup (tuple): The tuple to search within.
+    x: The element to search for in the tuple.
+
+    Returns:
+    bool: True if 'x' is found in 'tup', False otherwise.
+    """"""
+    return x in tup
+```",1.0,True,
+1.5b,mbpp,mbpp/406,"```python
+def find_Parity(n):
+    """"""
+    Find whether the parity of a given number is odd.
+
+    Args:
+        n (int): The number to check.
+
+    Returns:
+        bool: True if the parity is odd, False otherwise.
+    """"""
+    # Check if the last bit of n is 1
+    return n & 1 == 1
+```",1.0,True,
+1.5b,mbpp,mbpp/411,"```python
+def snake_to_camel(snake_str):
+    """"""
+    Convert a snake case string to camel case string.
+
+    Args:
+        snake_str (str): The snake case string to be converted.
+
+    Returns:
+        str: The camel case string.
+    """"""
+    # Split the snake case string by underscore and capitalize each word except the first one
+    words = snake_str.split('_')
+    camel_case_str = words[0].lower() + ''.join(word.capitalize() for word in words[1:])
+    return camel_case_str
+
+# Tests
+assert snake_to_camel('android_tv') == 'AndroidTv'
+assert snake_to_camel('google_pixel') == 'GooglePixel'
+assert snake_to_camel('apple_watch') == 'AppleWatch'
+```",0.0,False,AssertionError
+1.5b,mbpp,mbpp/412,"```python
+def remove_odd(numbers):
+    """"""
+    Remove all odd numbers from a given list.
+
+    Args:
+    numbers: A list of integers.
+
+    Returns:
+    A new list with all odd numbers removed.
+    """"""
+    # Filter out odd numbers using list comprehension
+    return [num for num in numbers if num % 2 == 0]
+```",1.0,True,
+1.5b,mbpp,mbpp/425,"```python
+from typing import List
+
+def count_element_in_list(lst: List[List[int | str]], target: int | str) -> int:
+    """"""
+    Count the number of sublists that contain a specific element.
+
+    Args:
+        lst (List[List[int | str]]): The list of lists to search through.
+        target (int | str): The element to search for within the sublists.
+
+    Returns:
+        int: The count of sublists containing the target element.
+    """"""
+    count = 0
+    for sublist in lst:
+        if target in sublist:
+            count += 1
+    return count
+```",1.0,True,
+1.5b,mbpp,mbpp/426,"```python
+from typing import List
+
+def filter_oddnumbers(numbers: List[int]) -> List[int]:
+    """"""
+    Filter out even numbers from a list of integers.
+
+    Args:
+    numbers (List[int]): A list of integers.
+
+    Returns:
+    List[int]: A list containing only the odd numbers from the input list.
+    """"""
+    return [num for num in numbers if num % 2 != 0]
+```",1.0,True,
+1.5b,mbpp,mbpp/441,"```python
+def surfacearea_cube(size):
+    """"""
+    Calculate the surface area of a cube with a given side length.
+
+    Args:
+    size (int): The side length of the cube.
+
+    Returns:
+    int: The surface area of the cube.
+    """"""
+    # Surface area formula for a cube: 6 * side^2
+    return 6 * size ** 2
+```",1.0,True,
+1.5b,mbpp,mbpp/447,"```python
+from typing import List
+
+def cube_nums(nums: List[int]) -> List[int]:
+    """"""
+    Returns a new list containing the cubes of each element in the input list.
+    
+    :param nums: List of integers.
+    :return: A list of integers where each integer is the cube of the corresponding element in the input list.
+    """"""
+    return [num ** 3 for num in nums]
+```",1.0,True,
+1.5b,mbpp,mbpp/457,"```python
+def Find_Min(lst):
+    """"""
+    Finds the sublist with the minimum length from a given list of lists.
+
+    Parameters:
+    lst (list): A list containing sublists.
+
+    Returns:
+    list: The sublist with the minimum length.
+    """"""
+    if not lst:
+        return []
+    
+    min_length = len(lst[0])
+    min_sublist = lst[0]
+    
+    for sublist in lst:
+        if len(sublist) < min_length:
+            min_length = len(sublist)
+            min_sublist = sublist
+    
+    return min_sublist
+```",1.0,True,
+1.5b,mbpp,mbpp/458,"```python
+def rectangle_area(length, width):
+    """"""
+    Calculate the area of a rectangle given its length and width.
+
+    Args:
+    length (float): The length of the rectangle.
+    width (float): The width of the rectangle.
+
+    Returns:
+    float: The area of the rectangle.
+    """"""
+    return length * width
+```",1.0,True,
+1.5b,mbpp,mbpp/461,"```python
+def upper_ctr(s):
+    """"""
+    Count the number of uppercase characters in a given string.
+
+    Args:
+    s (str): The input string.
+
+    Returns:
+    int: The count of uppercase characters in the string.
+    """"""
+    return sum(1 for char in s if char.isupper())
+```",0.0,False,AssertionError
+1.5b,mbpp,mbpp/464,"```python
+def check_value(dictionary, value):
+    """"""
+    Check if all values in the given dictionary are equal to the specified value.
+
+    Args:
+    dictionary (dict): The dictionary to check.
+    value: The value to compare against.
+
+    Returns:
+    bool: True if all values are equal to the specified value, False otherwise.
+    """"""
+    # Check if all values in the dictionary are equal to the specified value
+    return all(value == v for v in dictionary.values())
+```",1.0,True,
+1.5b,mbpp,mbpp/471,"```python
+from typing import List
+
+def find_remainder(arr: List[int], n: int) -> int:
+    """"""
+    Find the product of the array multiplication modulo n.
+    
+    Args:
+    arr (List[int]): The input list of integers.
+    n (int): The modulus value.
+    
+    Returns:
+    int: The result of the product modulo n.
+    """"""
+    # Calculate the product of all elements in the array
+    product = 1
+    for num in arr:
+        product *= num
+    
+    # Return the product modulo n
+    return product % n
+```",1.0,True,
+1.5b,mbpp,mbpp/477,"```python
+def is_lower(s):
+    """"""
+    Convert the given string to lower case.
+
+    Args:
+        s (str): The input string to be converted.
+
+    Returns:
+        str: The converted string in lower case.
+    """"""
+    return s.lower()
+```",1.0,True,
+1.5b,mbpp,mbpp/479,"```python
+def first_Digit(n):
+    """"""
+    Find the first digit of a given number.
+
+    Args:
+    n (int): The number to find the first digit of.
+
+    Returns:
+    int: The first digit of the given number.
+    """"""
+    while n >= 10:
+        n //= 10
+    return n
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/1,"```java
+import java.util.ArrayList;
+import java.util.List;
+
+class Solution {
+    public List<String> separateParenGroups(String paren_string) {
+        List<String> result = new ArrayList<>();
+        StringBuilder currentString = new StringBuilder();
+        int currentDepth = 0;
+
+        for (char c : paren_string.toCharArray()) {
+            if (c == '(') {
+                currentDepth++;
+                currentString.append(c);
+            } else if (c == ')') {
+                currentDepth--;
+                currentString.append(c);
+
+                if (currentDepth == 0) {
+                    result.add(currentString.toString());
+                    currentString.setLength(0); // Clear the current string after adding it to the result
+                }
+            }
+        }
+
+        return result;
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/5,"```java
+import java.util.ArrayList;
+import java.util.List;
+
+class Solution {
+    public List<Integer> intersperse(List<Integer> numbers, int delimiter) {
+        if (numbers == null || numbers.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<Integer> result = new ArrayList<>();
+
+        for (int i = 0; i < numbers.size() - 1; i++) {
+            result.add(numbers.get(i));
+            result.add(delimiter);
+        }
+
+        result.add(numbers.get(numbers.size() - 1));
+
+        return result;
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/6,"```java
+import java.util.ArrayList;
+import java.util.List;
+
+class Solution {
+    public List<Integer> parseNestedParens(String paren_string) {
+        List<Integer> result = new ArrayList<>();
+        
+        String[] groups = paren_string.split("" "");
+        for (String group : groups) {
+            if (!group.isEmpty()) {
+                int maxDepth = 0;
+                int currentDepth = 0;
+                
+                for (char c : group.toCharArray()) {
+                    if (c == '(') {
+                        currentDepth++;
+                        maxDepth = Math.max(maxDepth, currentDepth);
+                    } else if (c == ')') {
+                        currentDepth--;
+                    }
+                }
+                
+                result.add(maxDepth);
+            }
+        }
+        
+        return result;
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/7,"```java
+import java.util.ArrayList;
+import java.util.List;
+
+class Solution {
+    public List<String> filterBySubstring(List<String> strings, String substring) {
+        List<String> filteredStrings = new ArrayList<>();
+        for (String s : strings) {
+            if (s.contains(substring)) {
+                filteredStrings.add(s);
+            }
+        }
+        return filteredStrings;
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/8,"```java
+import java.util.List;
+import java.util.ArrayList;
+
+class Solution {
+    public List<Integer> sumProduct(List<Integer> numbers) {
+        int sumValue = 0;
+        int prodValue = 1;
+
+        for (int n : numbers) {
+            sumValue += n;
+            prodValue *= n;
+        }
+
+        List<Integer> result = new ArrayList<>();
+        result.add(sumValue);
+        result.add(prodValue);
+
+        return result;
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/12,"```java
+import java.util.List;
+import java.util.Optional;
+
+class Solution {
+    public Optional<String> longest(List<String> strings) {
+        if (strings.isEmpty()) {
+            return Optional.empty();
+        }
+
+        int maxLength = 0;
+        String longestString = null;
+
+        for (String str : strings) {
+            if (str.length() > maxLength) {
+                maxLength = str.length();
+                longestString = str;
+            }
+        }
+
+        return Optional.ofNullable(longestString);
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/15,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public String stringSequence(int n) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i <= n; i++) {
+            sb.append(i);
+            if (i < n) {
+                sb.append("" "");
+            }
+        }
+        return sb.toString();
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/22,"```java
+import java.util.ArrayList;
+import java.util.List;
+
+class Solution {
+    public List<Integer> filterIntergers(List<Object> values) {
+        List<Integer> result = new ArrayList<>();
+        for (Object value : values) {
+            if (value instanceof Integer) {
+                result.add((Integer) value);
+            }
+        }
+        return result;
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/23,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int strlen(String string) {
+        return string.length();
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/26,"```java
+import java.util.*;
+
+class Solution {
+    public List<Integer> removeDuplicates(List<Integer> numbers) {
+        Map<Integer, Integer> countMap = new HashMap<>();
+        
+        // Count occurrences of each number
+        for (int num : numbers) {
+            countMap.put(num, countMap.getOrDefault(num, 0) + 1);
+        }
+        
+        // Filter out numbers that occur more than once and maintain original order
+        return numbers.stream()
+                      .filter(n -> countMap.get(n) <= 1)
+                      .collect(Collectors.toList());
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/28,"```java
+import java.util.List;
+import java.lang.*;
+
+class Solution {
+    public String concatenate(List<String> strings) {
+        return String.join("""", strings);
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/33,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<Integer> sortThird(List<Integer> l) {
+        // Convert the input list to an array for sorting
+        Integer[] arr = new Integer[l.size()];
+        for (int i = 0; i < l.size(); i++) {
+            arr[i] = l.get(i);
+        }
+
+        // Sort the array elements at indices divisible by 3
+        Arrays.sort(arr, 0, arr.length / 3);
+
+        // Create a new list to store the result
+        List<Integer> result = new ArrayList<>();
+
+        // Copy elements from the original list to the result list
+        for (int i = 0; i < l.size(); i++) {
+            if (i % 3 == 0) {
+                result.add(arr[i / 3]);
+            } else {
+                result.add(l.get(i));
+            }
+        }
+
+        return result;
+    }
+}
+```",0.0,False,"Exception in thread ""main"" java.lang.AssertionError
+	at Main.main(Main.java:16)"
+1.5b,humaneval_x_py2java,hex/35,"```java
+import java.util.List;
+import java.util.ArrayList;
+
+class Solution {
+    public int maxElement(List<Integer> l) {
+        int m = l.get(0);
+        for (int e : l) {
+            if (e > m) {
+                m = e;
+            }
+        }
+        return m;
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/39,"```java
+import java.math.BigInteger;
+
+public class Solution {
+    public int primeFib(int n) {
+        BigInteger[] fib = new BigInteger[2];
+        fib[0] = BigInteger.ONE;
+        fib[1] = BigInteger.ONE;
+        
+        while (true) {
+            BigInteger nextFib = fib[0].add(fib[1]);
+            if (isPrime(nextFib)) {
+                n--;
+            }
+            if (n == 0) {
+                return nextFib.intValue();
+            }
+            fib[0] = fib[1];
+            fib[1] = nextFib;
+        }
+    }
+
+    private boolean isPrime(BigInteger num) {
+        if (num.compareTo(BigInteger.ZERO) <= 0) {
+            return false;
+        }
+        if (num.equals(BigInteger.ONE)) {
+            return false;
+        }
+        if (num.equals(BigInteger.TWO)) {
+            return true;
+        }
+        if (num.mod(BigInteger.valueOf(2)).equals(BigInteger.ZERO)) {
+            return false;
+        }
+        BigInteger sqrtNum = num.sqrt();
+        for (BigInteger i = BigInteger.valueOf(3); i.compareTo(sqrtNum) <= 0; i = i.add(BigInteger.valueOf(2))) {
+            if (num.mod(i).equals(BigInteger.ZERO)) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/40,"```java
+import java.util.*;
+
+class Solution {
+    public boolean triplesSumToZero(List<Integer> l) {
+        Collections.sort(l);
+        int n = l.size();
+        
+        for (int i = 0; i < n - 2; i++) {
+            int left = i + 1;
+            int right = n - 1;
+            
+            while (left < right) {
+                int sum = l.get(i) + l.get(left) + l.get(right);
+                
+                if (sum == 0) {
+                    return true;
+                } else if (sum < 0) {
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+        }
+        
+        return false;
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/44,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public String changeBase(int x, int base) {
+        if (base < 2 || base >= 10) {
+            throw new IllegalArgumentException(""Base must be between 2 and 9"");
+        }
+
+        StringBuilder result = new StringBuilder();
+        while (x > 0) {
+            result.insert(0, x % base);
+            x /= base;
+        }
+        return result.toString();
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/45,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public double triangleArea(double a, double h) {
+        return a * h / 2.0;
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/48,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public boolean isPalindrome(String text) {
+        int left = 0;
+        int right = text.length() - 1;
+
+        while (left < right) {
+            if (text.charAt(left) != text.charAt(right)) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+
+        return true;
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/50,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    /**
+    returns encoded string by shifting every character by 5 in the alphabet.
+     */
+    public String encodeShift(String s) {
+        StringBuilder sb = new StringBuilder();
+        for (char ch : s.toCharArray()) {
+            sb.append((char) ('a' + ((ch + 5 - 'a') % 26)));
+        }
+        return sb.toString();
+    }
+
+    public String decodeShift(String s) {
+        StringBuilder sb = new StringBuilder();
+        for (char ch : s.toCharArray()) {
+            sb.append((char) ('a' + ((ch - 5 - 'a') % 26)));
+        }
+        return sb.toString();
+    }
+}
+```",0.0,False,"Exception in thread ""main"" java.lang.AssertionError
+	at Main.main(Main.java:24)"
+1.5b,humaneval_x_py2java,hex/55,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int fib(int n) {
+        if (n == 0) {
+            return 0;
+        }
+        if (n == 1) {
+            return 1;
+        }
+        return fib(n - 1) + fib(n - 2);
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/56,"```java
+import java.util.*;
+
+class Solution {
+    public boolean correctBracketing(String brackets) {
+        int depth = 0;
+        for (char b : brackets.toCharArray()) {
+            if (b == '<') {
+                depth++;
+            } else {
+                depth--;
+            }
+            if (depth < 0) {
+                return false;
+            }
+        }
+        return depth == 0;
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/57,"```java
+import java.util.*;
+
+class Solution {
+    public boolean monotonic(List<Integer> l) {
+        if (l.equals(Collections.sort(l)) || l.equals(Collections.sort(l).stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList()))) {
+            return true;
+        }
+        return false;
+    }
+}
+```",0.0,False,"compile: /tmp/tmpl4tmj7ph/Solution.java:10: error: 'void' type not allowed here
+        if (l.equals(Collections.sort(l)) || l.equals(Collections.sort(l).stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList()))) {
+                                     ^
+/tmp/tmpl4tmj7ph/Solution.java:10: error"
+1.5b,humaneval_x_py2java,hex/58,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<Integer> common(List<Integer> l1, List<Integer> l2) {
+        Set<Integer> ret = new HashSet<>();
+        for (Integer e1 : l1) {
+            for (Integer e2 : l2) {
+                if (e1.equals(e2)) {
+                    ret.add(e1);
+                }
+            }
+        }
+        return new ArrayList<>(ret);
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/59,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int largestPrimeFactor(int n) {
+        // Helper function to check if a number is prime
+        boolean isPrime(int k) {
+            if (k < 2) {
+                return false;
+            }
+            for (int i = 2; i * i <= k; i++) {
+                if (k % i == 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        int largest = 1;
+        // Iterate from 2 to n-1 to find the largest prime factor
+        for (int j = 2; j <= n; j++) {
+            if (n % j == 0 && isPrime(j)) {
+                largest = Math.max(largest, j);
+            }
+        }
+        return largest;
+    }
+}
+```",0.0,False,"compile: /tmp/tmp41z7yiwz/Solution.java:12: error: ';' expected
+        boolean isPrime(int k) {
+                       ^
+/tmp/tmp41z7yiwz/Solution.java:12: error: ';' expected
+        boolean isPrime(int k) {
+                             ^
+2 errors"
+1.5b,humaneval_x_py2java,hex/62,"```java
+import java.util.ArrayList;
+import java.util.List;
+
+class Solution {
+    public List<Integer> derivative(List<Integer> xs) {
+        List<Integer> result = new ArrayList<>();
+        for (int i = 1; i < xs.size(); i++) {
+            result.add(i * xs.get(i));
+        }
+        return result;
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/68,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<Integer> pluck(List<Integer> arr) {
+        if (arr.isEmpty()) return new ArrayList<>();
+
+        List<Integer> evens = new ArrayList<>();
+        for (int i = 0; i < arr.size(); i++) {
+            if (arr.get(i) % 2 == 0) {
+                evens.add(arr.get(i));
+            }
+        }
+
+        if (evens.isEmpty()) return new ArrayList<>();
+
+        int minIndex = evens.indexOf(Collections.min(evens));
+        return Arrays.asList(Collections.min(evens), minIndex);
+    }
+}
+```",0.0,False,"Exception in thread ""main"" java.lang.AssertionError
+	at Main.main(Main.java:20)"
+1.5b,humaneval_x_py2java,hex/70,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<Integer> strangeSortList(List<Integer> lst) {
+        List<Integer> res = new ArrayList<>();
+        boolean switchOrder = true;
+        
+        while (!lst.isEmpty()) {
+            if (switchOrder) {
+                res.add(Collections.min(lst));
+            } else {
+                res.add(Collections.max(lst));
+            }
+            
+            lst.remove(res.get(res.size() - 1));
+            switchOrder = !switchOrder;
+        }
+        
+        return res;
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/71,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public double triangleArea(double a, double b, double c) {
+        // Check if the sides form a valid triangle
+        if (a + b <= c || a + c <= b || b + c <= a) {
+            return -1;
+        }
+        
+        // Calculate the semi-perimeter
+        double s = (a + b + c) / 2;
+        
+        // Calculate the area using Heron's formula
+        double area = Math.sqrt(s * (s - a) * (s - b) * (s - c));
+        
+        // Round the area to 2 decimal points
+        area = Math.round(area * 100.0) / 100.0;
+        
+        return area;
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/77,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public boolean iscube(int a) {
+        // Convert the input to its absolute value
+        a = Math.abs(a);
+        
+        // Calculate the cube root of the absolute value
+        double cubeRoot = Math.cbrt(a);
+        
+        // Round the cube root to the nearest integer
+        int roundedCubeRoot = (int)Math.round(cubeRoot);
+        
+        // Check if the cubed value of the rounded cube root equals the original input
+        return roundedCubeRoot * roundedCubeRoot * roundedCubeRoot == a;
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/86,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public String antiShuffle(String s) {
+        return ' '.join([''.join(sorted(list(i))) for i in s.split(' ')]);
+    }
+}
+```",0.0,False,"compile: /tmp/tmpzbnn2y1r/Solution.java:11: error: illegal start of expression
+        return ' '.join([''.join(sorted(list(i))) for i in s.split(' ')]);
+                        ^
+/tmp/tmpzbnn2y1r/Solution.java:11: error: empty character literal
+        return ' '.join([''.join(sorted(list(i))) for i in s.sp"
+1.5b,humaneval_x_py2java,hex/87,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<List<Integer>> getRow(List<List<Integer>> lst, int x) {
+        List<List<Integer>> result = new ArrayList<>();
+        
+        // Find all occurrences of x in the list
+        for (int i = 0; i < lst.size(); i++) {
+            for (int j = 0; j < lst.get(i).size(); j++) {
+                if (lst.get(i).get(j) == x) {
+                    result.add(Arrays.asList(i, j));
+                }
+            }
+        }
+        
+        // Sort the results first by row in ascending order, then by column in descending order
+        Collections.sort(result, Comparator.comparingInt(row -> row.get(0)).thenComparingInt(col -> col.get(1)).reversed());
+        
+        return result;
+    }
+}
+```",0.0,False,"compile: /tmp/tmp9rhguchi/Solution.java:23: error: cannot find symbol
+        Collections.sort(result, Comparator.comparingInt(row -> row.get(0)).thenComparingInt(col -> col.get(1)).reversed());
+                                                                   ^
+  symbol:   method get(int)
+  location: varia"
+1.5b,humaneval_x_py2java,hex/93,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public String encode(String message) {
+        // Define vowels and their replacements
+        Map<Character, Character> vowelsReplace = new HashMap<>();
+        vowelsReplace.put('a', 'c');
+        vowelsReplace.put('e', 'g');
+        vowelsReplace.put('i', 'k');
+        vowelsReplace.put('o', 'q');
+        vowelsReplace.put('u', 'w');
+        vowelsReplace.put('A', 'C');
+        vowelsReplace.put('E', 'G');
+        vowelsReplace.put('I', 'K');
+        vowelsReplace.put('O', 'Q');
+        vowelsReplace.put('U', 'W');
+
+        // Swap case of the message
+        StringBuilder encodedMessage = new StringBuilder();
+        for (char c : message.toCharArray()) {
+            if (Character.isLetter(c)) {
+                char swappedCaseChar = Character.isUpperCase(c) ? Character.toLowerCase(c) : Character.toUpperCase(c);
+                encodedMessage.append(vowelsReplace.containsKey(swappedCaseChar) ? vowelsReplace.get(swappedCaseChar) : swappedCaseChar);
+            } else {
+                encodedMessage.append(c);
+            }
+        }
+
+        return encodedMessage.toString();
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/97,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int multiply(int a, int b) {
+        return Math.abs(a % 10) * Math.abs(b % 10);
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/103,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public String roundedAvg(int n, int m) {
+        if (m < n) {
+            return ""-1"";
+        }
+        int summation = 0;
+        for (int i = n; i <= m; i++) {
+            summation += i;
+        }
+        return Integer.toBinaryString((int)Math.round(summation / (double)(m - n + 1)));
+    }
+}
+```",0.0,False,"compile: /tmp/tmpk_2chz0s/Main.java:19: error: incompatible types: String cannot be converted to int
+                (int) s.roundedAvg(7, 5) == -1,
+                                  ^
+/tmp/tmpk_2chz0s/Main.java:20: error: incompatible types: String cannot be converted to int
+                (int) s.roundedA"
+1.5b,humaneval_x_py2java,hex/107,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<Integer> evenOddPalindrome(int n) {
+        int evenPalindromeCount = 0;
+        int oddPalindromeCount = 0;
+
+        for (int i = 1; i <= n; i++) {
+            if (i % 2 != 0 && isPalindrome(i)) {
+                oddPalindromeCount++;
+            } else if (i % 2 == 0 && isPalindrome(i)) {
+                evenPalindromeCount++;
+            }
+        }
+
+        List<Integer> result = new ArrayList<>();
+        result.add(evenPalindromeCount);
+        result.add(oddPalindromeCount);
+
+        return result;
+    }
+
+    private boolean isPalindrome(int num) {
+        String numStr = Integer.toString(num);
+        String reversedNumStr = new StringBuilder(numStr).reverse().toString();
+        return numStr.equals(reversedNumStr);
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/108,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int countNums(List<Integer> arr) {
+        // Helper function to calculate the sum of digits of a number
+        private int digitsSum(int n) {
+            int neg = 1;
+            if (n < 0) {
+                n = -1 * n;
+                neg = -1;
+            }
+            List<Integer> digits = new ArrayList<>();
+            while (n != 0) {
+                digits.add(n % 10);
+                n /= 10;
+            }
+            digits.set(0, digits.get(0) * neg);
+            return digits.stream().mapToInt(Integer::intValue).sum();
+        }
+
+        // Count numbers with positive digit sums
+        return (int) arr.stream()
+                         .filter(num -> digitsSum(num) > 0)
+                         .count();
+    }
+}
+```",0.0,False,"compile: /tmp/tmpx5y1n6zh/Solution.java:12: error: illegal start of expression
+        private int digitsSum(int n) {
+        ^
+/tmp/tmpx5y1n6zh/Solution.java:28: error: illegal start of type
+        return (int) arr.stream()
+        ^
+/tmp/tmpx5y1n6zh/Solution.java:28: error: <identifier> expected
+        r"
+1.5b,humaneval_x_py2java,hex/114,"```java
+import java.util.List;
+
+class Solution {
+    public int minSubArraySum(List<Integer> nums) {
+        int max_sum = 0;
+        int s = 0;
+        for (int num : nums) {
+            s += -num;
+            if (s < 0) {
+                s = 0;
+            }
+            max_sum = Math.max(s, max_sum);
+        }
+        if (max_sum == 0) {
+            max_sum = Collections.min(nums);
+        }
+        return -max_sum;
+    }
+}
+```",0.0,False,"Exception in thread ""main"" java.lang.AssertionError
+	at Main.main(Main.java:24)"
+1.5b,humaneval_x_py2java,hex/129,"```java
+import java.util.ArrayList;
+import java.util.Arrays;
+
+class Solution {
+    public List<Integer> minPath(List<List<Integer>> grid, int k) {
+        int n = grid.size();
+        int val = n * n + 1;
+        
+        // Find the smallest value in the first row
+        for (int j = 0; j < n; j++) {
+            if (grid.get(0).get(j) == 1) {
+                val = Math.min(val, grid.get(0).get(j));
+            }
+        }
+
+        ArrayList<Integer> ans = new ArrayList<>();
+        for (int i = 0; i < k; i++) {
+            if (i % 2 == 0) {
+                ans.add(1);
+            } else {
+                ans.add(val);
+            }
+        }
+        return ans;
+    }
+}
+```",0.0,False,"Exception in thread ""main"" java.lang.AssertionError
+	at Main.main(Main.java:23)"
+1.5b,humaneval_x_py2java,hex/135,"```java
+import java.util.*;
+
+class Solution {
+    public int canArrange(List<Integer> arr) {
+        int ind = -1;
+        for (int i = 1; i < arr.size(); i++) {
+            if (arr.get(i) < arr.get(i - 1)) {
+                ind = i;
+            }
+        }
+        return ind;
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/138,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public boolean isEqualToSumEven(int n) {
+        // Check if the number is even and greater than or equal to 8
+        return n % 2 == 0 && n >= 8;
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/139,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public long specialFactorial(int n) {
+        long fact_i = 1;
+        long special_fact = 1;
+        for (int i = 1; i <= n; i++) {
+            fact_i *= i;
+            special_fact *= fact_i;
+        }
+        return special_fact;
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/143,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public String wordsInSentence(String sentence) {
+        List<String> new_lst = new ArrayList<>();
+        for (String word : sentence.split("" "")) {
+            int flg = 0;
+            if (word.length() == 1) {
+                flg = 1;
+            }
+            for (int i = 2; i < word.length(); i++) {
+                if (word.length() % i == 0) {
+                    flg = 1;
+                }
+            }
+            if (flg == 0 || word.length() == 2) {
+                new_lst.add(word);
+            }
+        }
+        return String.join("" "", new_lst);
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/148,"```java
+import java.util.*;
+
+class Solution {
+    public List<String> bf(String planet1, String planet2) {
+        // Define the list of planets
+        List<String> planets = Arrays.asList(""Mercury"", ""Venus"", ""Earth"", ""Mars"", ""Jupiter"", ""Saturn"", ""Uranus"", ""Neptune"");
+        
+        // Check if both planet names are valid
+        if (!planets.contains(planet1) || !planets.contains(planet2)) {
+            return new ArrayList<>();
+        }
+        
+        // Find the indices of the given planets
+        int index1 = planets.indexOf(planet1);
+        int index2 = planets.indexOf(planet2);
+        
+        // Ensure index1 is less than index2 for correct slicing
+        if (index1 > index2) {
+            int temp = index1;
+            index1 = index2;
+            index2 = temp;
+        }
+        
+        // Return the sublist of planets between the two indices
+        return planets.subList(index1 + 1, index2);
+    }
+}
+```",0.0,False,"	at java.base/java.util.AbstractList.subList(AbstractList.java:497)
+	at Solution.bf(Solution.java:30)
+	at Main.main(Main.java:14)"
+1.5b,humaneval_x_py2java,hex/149,"```java
+import java.util.*;
+
+class Solution {
+    public List<String> listSort(List<String> lst) {
+        // Sort the list first
+        Collections.sort(lst);
+        
+        // Create a new list to store even-length strings
+        List<String> new_lst = new ArrayList<>();
+        
+        // Iterate through the sorted list and add even-length strings to the new list
+        for (String s : lst) {
+            if (s.length() % 2 == 0) {
+                new_lst.add(s);
+            }
+        }
+        
+        // Return the sorted list of even-length strings
+        return new_lst;
+    }
+}
+```",0.0,False,"Exception in thread ""main"" java.lang.AssertionError
+	at Main.main(Main.java:19)"
+1.5b,humaneval_x_py2java,hex/151,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int doubleTheDifference(List<Object> lst) {
+        int result = 0;
+        for (Object item : lst) {
+            if (item instanceof Integer && ((Integer)item) > 0 && ((Integer)item) % 2 != 0 && !String.valueOf(item).contains(""."")) {
+                result += Math.pow((Integer)item, 2);
+            }
+        }
+        return result;
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/152,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<Integer> compare(List<Integer> game, List<Integer> guess) {
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < game.size(); i++) {
+            result.add(Math.abs(game.get(i) - guess.get(i)));
+        }
+        return result;
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/155,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<Integer> evenOddCount(int num) {
+        List<Integer> result = new ArrayList<>();
+        int evenCount = 0;
+        int oddCount = 0;
+
+        // Convert the number to its absolute value
+        num = Math.abs(num);
+
+        // Iterate through each digit of the number
+        while (num > 0) {
+            int digit = num % 10; // Get the last digit
+            if (digit % 2 == 0) {
+                evenCount++; // Increment even count
+            } else {
+                oddCount++; // Increment odd count
+            }
+            num /= 10; // Remove the last digit
+        }
+
+        // Add the counts to the result list
+        result.add(evenCount);
+        result.add(oddCount);
+
+        return result;
+    }
+}
+```",0.0,False,"Exception in thread ""main"" java.lang.AssertionError
+	at Main.main(Main.java:20)"
+1.5b,humaneval_x_py2java,hex/156,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public String intToMiniRoman(int number) {
+        int[] num = {1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000}; 
+        String[] sym = {""I"", ""IV"", ""V"", ""IX"", ""X"", ""XL"", ""L"", ""XC"", ""C"", ""CD"", ""D"", ""CM"", ""M""}; 
+        int i = 12;
+        StringBuilder res = new StringBuilder();
+        while (number > 0) { 
+            int div = number / num[i]; 
+            number %= num[i]; 
+            while (div > 0) { 
+                res.append(sym[i]); 
+                div -= 1;
+            }
+            i -= 1;
+        }
+        return res.toString().toLowerCase();
+    }
+}
+```",1.0,True,
+1.5b,humaneval_x_py2java,hex/161,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public String solve(String s) {
+        boolean hasLetters = false;
+        char[] chars = s.toCharArray();
+        
+        for (char c : chars) {
+            if (Character.isLetter(c)) {
+                hasLetters = true;
+                break;
+            }
+        }
+        
+        if (!hasLetters) {
+            Arrays.reverse(chars);
+        } else {
+            for (int i = 0; i < chars.length; i++) {
+                if (Character.isLetter(chars[i])) {
+                    chars[i] = Character.isUpperCase(chars[i]) ? Character.toLowerCase(chars[i]) : Character.toUpperCase(chars[i]);
+                }
+            }
+        }
+        
+        return new String(chars);
+    }
+}
+```",0.0,False,"compile: /tmp/tmp9odhehsl/Solution.java:22: error: cannot find symbol
+            Arrays.reverse(chars);
+                  ^
+  symbol:   method reverse(char[])
+  location: class Arrays
+1 error"
+1.5b,humaneval_x_py2java,hex/163,"```java
+import java.util.ArrayList;
+import java.util.List;
+
+class Solution {
+    public List<Integer> generateIntegers(int a, int b) {
+        // Ensure a is less than or equal to b
+        int lower = Math.max(2, Math.min(a, b));
+        int upper = Math.min(8, Math.max(a, b));
+
+        // Generate the list of even numbers between lower and upper (inclusive)
+        List<Integer> result = new ArrayList<>();
+        for (int i = lower; i <= upper; i++) {
+            if (i % 2 == 0) {
+                result.add(i);
+            }
+        }
+
+        return result;
+    }
+}
+```",1.0,True,
+7b,humaneval,HumanEval/1,"```python
+from typing import List
+
+
+def separate_paren_groups(paren_string: str) -> List[str]:
+    """""" Input to this function is a string containing multiple groups of nested parentheses. Your goal is to
+    separate those group into separate strings and return the list of those.
+    Separate groups are balanced (each open brace is properly closed) and not nested within each other
+    Ignore any spaces in the input string.
+    >>> separate_paren_groups('( ) (( )) (( )( ))')
+    ['()', '(())', '(()())']
+    """"""
+    result = []
+    current_group = []
+    depth = 0
+
+    for char in paren_string.replace("" "", """"):
+        if char == '(':
+            depth += 1
+        elif char == ')':
+            depth -= 1
+        
+        current_group.append(char)
+        
+        if depth == 0:
+            result.append(''.join(current_group))
+            current_group = []
+
+    return result
+```",1.0,True,
+7b,humaneval,HumanEval/5,"```python
+from typing import List
+
+
+def intersperse(numbers: List[int], delimiter: int) -> List[int]:
+    """""" Insert a number 'delimiter' between every two consecutive elements of input list `numbers`
+    >>> intersperse([], 4)
+    []
+    >>> intersperse([1, 2, 3], 4)
+    [1, 4, 2, 4, 3]
+    """"""
+    if not numbers:
+        return []
+
+    result = [numbers[0]]
+    for num in numbers[1:]:
+        result.extend([delimiter, num])
+
+    return result
+```",1.0,True,
+7b,humaneval,HumanEval/6,"```python
+from typing import List
+
+
+def parse_nested_parens(paren_string: str) -> List[int]:
+    """""" Input to this function is a string represented multiple groups for nested parentheses separated by spaces.
+    For each of the group, output the deepest level of nesting of parentheses.
+    E.g. (()()) has maximum two levels of nesting while ((())) has three.
+
+    >>> parse_nested_parens('(()()) ((())) () ((())()())')
+    [2, 3, 1, 3]
+    """"""
+    def max_depth(s: str) -> int:
+        depth = 0
+        max_depth = 0
+        for char in s:
+            if char == '(':
+                depth += 1
+                if depth > max_depth:
+                    max_depth = depth
+            elif char == ')':
+                depth -= 1
+        return max_depth
+
+    return [max_depth(group) for group in paren_string.split()]
+```",1.0,True,
+7b,humaneval,HumanEval/7,"```python
+from typing import List
+
+
+def filter_by_substring(strings: List[str], substring: str) -> List[str]:
+    """""" Filter an input list of strings only for ones that contain given substring
+    >>> filter_by_substring([], 'a')
+    []
+    >>> filter_by_substring(['abc', 'bacd', 'cde', 'array'], 'a')
+    ['abc', 'bacd', 'array']
+    """"""
+    return [s for s in strings if substring in s]
+```",1.0,True,
+7b,humaneval,HumanEval/8,"```python
+from typing import List, Tuple
+
+
+def sum_product(numbers: List[int]) -> Tuple[int, int]:
+    """""" For a given list of integers, return a tuple consisting of a sum and a product of all the integers in a list.
+    Empty sum should be equal to 0 and empty product should be equal to 1.
+    >>> sum_product([])
+    (0, 1)
+    >>> sum_product([1, 2, 3, 4])
+    (10, 24)
+    """"""
+    if not numbers:
+        return (0, 1)
+    
+    total_sum = sum(numbers)
+    total_product = 1
+    for number in numbers:
+        total_product *= number
+    
+    return (total_sum, total_product)
+```",1.0,True,
+7b,humaneval,HumanEval/12,"```python
+from typing import List, Optional
+
+
+def longest(strings: List[str]) -> Optional[str]:
+    """""" Out of list of strings, return the longest one. Return the first one in case of multiple
+    strings of the same length. Return None in case the input list is empty.
+    >>> longest([])
+    None
+    >>> longest(['a', 'b', 'c'])
+    'a'
+    >>> longest(['a', 'bb', 'ccc'])
+    'ccc'
+    """"""
+    if not strings:
+        return None
+    return max(strings, key=len)
+```",1.0,True,
+7b,humaneval,HumanEval/15,"```python
+from typing import *
+
+def string_sequence(n: int) -> str:
+    """""" Return a string containing space-delimited numbers starting from 0 upto n inclusive.
+    >>> string_sequence(0)
+    '0'
+    >>> string_sequence(5)
+    '0 1 2 3 4 5'
+    """"""
+    return ' '.join(str(i) for i in range(n + 1))
+```",1.0,True,
+7b,humaneval,HumanEval/22,"```python
+from typing import List, Any
+
+
+def filter_integers(values: List[Any]) -> List[int]:
+    """""" Filter given list of any python values only for integers
+    >>> filter_integers(['a', 3.14, 5])
+    [5]
+    >>> filter_integers([1, 2, 3, 'abc', {}, []])
+    [1, 2, 3]
+    """"""
+    return [value for value in values if isinstance(value, int)]
+```",1.0,True,
+7b,humaneval,HumanEval/23,"```python
+def strlen(string: str) -> int:
+    """""" Return length of given string
+    >>> strlen('')
+    0
+    >>> strlen('abc')
+    3
+    """"""
+    return len(string)
+```",1.0,True,
+7b,humaneval,HumanEval/26,"```python
+from typing import List
+
+
+def remove_duplicates(numbers: List[int]) -> List[int]:
+    """""" From a list of integers, remove all elements that occur more than once.
+    Keep order of elements left the same as in the input.
+    >>> remove_duplicates([1, 2, 3, 2, 4])
+    [1, 3, 4]
+    """"""
+    seen = set()
+    result = []
+    
+    for number in numbers:
+        if number not in seen:
+            seen.add(number)
+            result.append(number)
+    
+    return result
+```",0.0,False,AssertionError
+7b,humaneval,HumanEval/28,"```python
+from typing import List
+
+
+def concatenate(strings: List[str]) -> str:
+    """""" Concatenate list of strings into a single string
+    >>> concatenate([])
+    ''
+    >>> concatenate(['a', 'b', 'c'])
+    'abc'
+    """"""
+    return ''.join(strings)
+```",1.0,True,
+7b,humaneval,HumanEval/33,"```python
+from typing import List
+
+def sort_third(l: List[int]) -> List[int]:
+    """"""This function takes a list l and returns a list l' such that
+    l' is identical to l in the indices that are not divisible by three, while its values at the indices that are divisible by three are equal
+    to the values of the corresponding indices of l, but sorted.
+    >>> sort_third([1, 2, 3])
+    [1, 2, 3]
+    >>> sort_third([5, 6, 3, 4, 8, 9, 2])
+    [2, 6, 3, 4, 8, 9, 5]
+    """"""
+    # Extract elements at indices divisible by three
+    third_elements = [l[i] for i in range(len(l)) if i % 3 == 0]
+    
+    # Sort these extracted elements
+    third_elements.sort()
+    
+    # Create a new list to store the result
+    result = l[:]
+    
+    # Replace elements at indices divisible by three with sorted values
+    for i, value in enumerate(third_elements):
+        result[i * 3] = value
+    
+    return result
+```",1.0,True,
+7b,humaneval,HumanEval/35,"```python
+from typing import List
+
+def max_element(l: List[int]) -> int:
+    """"""Return maximum element in the list.
+    >>> max_element([1, 2, 3])
+    3
+    >>> max_element([5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10])
+    123
+    """"""
+    if not l:
+        raise ValueError(""List is empty"")
+    return max(l)
+```",1.0,True,
+7b,humaneval,HumanEval/39,"```python
+import math
+
+def prime_fib(n: int) -> int:
+    """"""
+    prime_fib returns n-th number that is a Fibonacci number and it's also prime.
+    >>> prime_fib(1)
+    2
+    >>> prime_fib(2)
+    3
+    >>> prime_fib(3)
+    5
+    >>> prime_fib(4)
+    13
+    >>> prime_fib(5)
+    89
+    """"""
+
+    def is_prime(num: int) -> bool:
+        if num <= 1:
+            return False
+        if num <= 3:
+            return True
+        if num % 2 == 0 or num % 3 == 0:
+            return False
+        i = 5
+        while i * i <= num:
+            if num % i == 0 or num % (i + 2) == 0:
+                return False
+            i += 6
+        return True
+
+    def fib_generator():
+        a, b = 0, 1
+        while True:
+            yield b
+            a, b = b, a + b
+
+    count = 0
+    for fib_num in fib_generator():
+        if is_prime(fib_num):
+            count += 1
+            if count == n:
+                return fib_num
+
+# Test cases
+print(prime_fib(1))  # Output: 2
+print(prime_fib(2))  # Output: 3
+print(prime_fib(3))  # Output: 5
+print(prime_fib(4))  # Output: 13
+print(prime_fib(5))  # Output: 89
+```",1.0,True,
+7b,humaneval,HumanEval/40,"```python
+from typing import List
+
+def triples_sum_to_zero(l: List[int]) -> bool:
+    """"""
+    triples_sum_to_zero takes a list of integers as an input.
+    it returns True if there are three distinct elements in the list that
+    sum to zero, and False otherwise.
+
+    >>> triples_sum_to_zero([1, 3, 5, 0])
+    False
+    >>> triples_sum_to_zero([1, 3, -2, 1])
+    True
+    >>> triples_sum_to_zero([1, 2, 3, 7])
+    False
+    >>> triples_sum_to_zero([2, 4, -5, 3, 9, 7])
+    True
+    >>> triples_sum_to_zero([1])
+    False
+    """"""
+    n = len(l)
+    for i in range(n):
+        seen = set()
+        target = -l[i]
+        for j in range(i + 1, n):
+            complement = target - l[j]
+            if complement in seen:
+                return True
+            seen.add(l[j])
+    return False
+```",1.0,True,
+7b,humaneval,HumanEval/44,"```python
+def change_base(x: int, base: int) -> str:
+    """"""Change numerical base of input number x to base.
+    return string representation after the conversion.
+    base numbers are less than 10.
+    >>> change_base(8, 3)
+    '22'
+    >>> change_base(8, 2)
+    '1000'
+    >>> change_base(7, 2)
+    '111'
+    """"""
+    if x == 0:
+        return ""0""
+    
+    digits = []
+    while x:
+        digits.append(int(x % base))
+        x //= base
+    
+    # The digits are in reverse order, so we need to reverse them before joining
+    digits.reverse()
+    return ''.join(str(digit) for digit in digits)
+
+# Test cases
+print(change_base(8, 3))  # Output: '22'
+print(change_base(8, 2))  # Output: '1000'
+print(change_base(7, 2))  # Output: '111'
+```",1.0,True,
+7b,humaneval,HumanEval/45,"```python
+def triangle_area(a, h):
+    """"""Given length of a side and high return area for a triangle.
+    >>> triangle_area(5, 3)
+    7.5
+    """"""
+    return 0.5 * a * h
+```",1.0,True,
+7b,humaneval,HumanEval/48,"```python
+def is_palindrome(text: str) -> bool:
+    """"""
+    Checks if given string is a palindrome
+    >>> is_palindrome('')
+    True
+    >>> is_palindrome('aba')
+    True
+    >>> is_palindrome('aaaaa')
+    True
+    >>> is_palindrome('zbcd')
+    False
+    """"""
+    return text == text[::-1]
+```",1.0,True,
+7b,humaneval,HumanEval/50,"```python
+import string
+
+def encode_shift(s: str):
+    """"""
+    returns encoded string by shifting every character by 5 in the alphabet.
+    """"""
+    return """".join([chr(((ord(ch) + 5 - ord(""a"")) % 26) + ord(""a"")) for ch in s])
+
+def decode_shift(s: str):
+    """"""
+    takes as input string encoded with encode_shift function. Returns decoded string.
+    """"""
+    return """".join([chr(((ord(ch) - 5 - ord(""a"")) % 26) + ord(""a"")) for ch in s])
+```",1.0,True,
+7b,humaneval,HumanEval/55,"```python
+from functools import lru_cache
+
+@lru_cache(maxsize=None)
+def fib(n: int) -> int:
+    """"""Return n-th Fibonacci number.
+    >>> fib(10)
+    55
+    >>> fib(1)
+    1
+    >>> fib(8)
+    21
+    """"""
+    if n <= 1:
+        return n
+    else:
+        return fib(n-1) + fib(n-2)
+```",1.0,True,
+7b,humaneval,HumanEval/56,"```python
+from collections import deque
+
+def correct_bracketing(brackets: str) -> bool:
+    """""" brackets is a string of ""<"" and "">"".
+    return True if every opening bracket has a corresponding closing bracket.
+
+    >>> correct_bracketing(""<"")
+    False
+    >>> correct_bracketing(""<>"")
+    True
+    >>> correct_bracketing(""<<><>>"")
+    True
+    >>> correct_bracketing(""><<>"")
+    False
+    """"""
+    stack = deque()
+    
+    for char in brackets:
+        if char == '<':
+            stack.append(char)
+        elif char == '>':
+            if not stack:
+                return False
+            stack.pop()
+    
+    return len(stack) == 0
+```",1.0,True,
+7b,humaneval,HumanEval/57,"```python
+from typing import List
+
+def monotonic(l: List[int]) -> bool:
+    """"""Return True if list elements are monotonically increasing or decreasing.
+    >>> monotonic([1, 2, 4, 20])
+    True
+    >>> monotonic([1, 20, 4, 10])
+    False
+    >>> monotonic([4, 1, 0, -10])
+    True
+    """"""
+    if not l:
+        return True
+    
+    increasing = decreasing = True
+    
+    for i in range(1, len(l)):
+        if l[i] > l[i - 1]:
+            decreasing = False
+        elif l[i] < l[i - 1]:
+            increasing = False
+    
+    return increasing or decreasing
+```",1.0,True,
+7b,humaneval,HumanEval/58,"```python
+from typing import List
+
+def common(l1: List[int], l2: List[int]) -> List[int]:
+    """"""Return sorted unique common elements for two lists.
+    >>> common([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])
+    [1, 5, 653]
+    >>> common([5, 3, 2, 8], [3, 2])
+    [2, 3]
+    """"""
+    # Find the intersection of the two sets to get common elements
+    common_elements = set(l1).intersection(set(l2))
+    
+    # Convert the set to a sorted list
+    return sorted(list(common_elements))
+
+# Test cases
+print(common([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121]))  # Output: [1, 5, 653]
+print(common([5, 3, 2, 8], [3, 2]))  # Output: [2, 3]
+```",1.0,True,
+7b,humaneval,HumanEval/59,"```python
+import math
+
+def largest_prime_factor(n: int) -> int:
+    """"""Return the largest prime factor of n. Assume n > 1 and is not a prime.
+    >>> largest_prime_factor(13195)
+    29
+    >>> largest_prime_factor(2048)
+    2
+    """"""
+    # Initialize the largest prime factor to the lowest possible value
+    largest_prime = -1
+    
+    # Divide n by 2 until it becomes odd
+    while n % 2 == 0:
+        largest_prime = 2
+        n //= 2
+    
+    # Check for odd factors from 3 onwards
+    for i in range(3, int(math.sqrt(n)) + 1, 2):
+        while n % i == 0:
+            largest_prime = i
+            n //= i
+    
+    # If n is still greater than 2, then it must be a prime number
+    if n > 2:
+        largest_prime = n
+    
+    return largest_prime
+```",1.0,True,
+7b,humaneval,HumanEval/62,"```python
+from typing import List
+
+def derivative(xs: List[int]) -> List[int]:
+    """""" xs represent coefficients of a polynomial.
+    xs[0] + xs[1] * x + xs[2] * x^2 + ....
+     Return derivative of this polynomial in the same form.
+    >>> derivative([3, 1, 2, 4, 5])
+    [1, 4, 12, 20]
+    >>> derivative([1, 2, 3])
+    [2, 6]
+    """"""
+    return [i * coeff for i, coeff in enumerate(xs)][1:]
+```",1.0,True,
+7b,humaneval,HumanEval/68,"```python
+from typing import List
+
+def pluck(arr: List[int]) -> List[int]:
+    """"""
+    Given an array representing a branch of a tree that has non-negative integer nodes
+    your task is to pluck one of the nodes and return it.
+    The plucked node should be the node with the smallest even value.
+    If multiple nodes with the same smallest even value are found return the node that has smallest index.
+
+    The plucked node should be returned in a list, [smallest_value, its_index],
+    If there are no even values or the given array is empty, return [].
+
+    Example 1:
+        Input: [4,2,3]
+        Output: [2, 1]
+        Explanation: 2 has the smallest even value, and 2 has the smallest index.
+
+    Example 2:
+        Input: [1,2,3]
+        Output: [2, 1]
+        Explanation: 2 has the smallest even value, and 2 has the smallest index. 
+
+    Example 3:
+        Input: []
+        Output: []
+    
+    Example 4:
+        Input: [5, 0, 3, 0, 4, 2]
+        Output: [0, 1]
+        Explanation: 0 is the smallest value, but  there are two zeros,
+                     so we will choose the first zero, which has the smallest index.
+
+    Constraints:
+        * 1 <= nodes.length <= 10000
+        * 0 <= node.value
+    """"""
+    if not arr:
+        return []
+
+    min_even = float('inf')
+    min_index = -1
+
+    for i, num in enumerate(arr):
+        if num % 2 == 0 and num < min_even:
+            min_even = num
+            min_index = i
+
+    if min_index == -1:
+        return []
+
+    return [min_even, min_index]
+```",1.0,True,
+7b,humaneval,HumanEval/70,"```python
+from typing import List
+
+def strange_sort_list(lst: List[int]) -> List[int]:
+    '''
+    Given list of integers, return list in strange order.
+    Strange sorting, is when you start with the minimum value,
+    then maximum of the remaining integers, then minimum and so on.
+
+    Examples:
+    strange_sort_list([1, 2, 3, 4]) == [1, 4, 2, 3]
+    strange_sort_list([5, 5, 5, 5]) == [5, 5, 5, 5]
+    strange_sort_list([]) == []
+    '''
+    sorted_lst = sorted(lst)
+    result = []
+    left = 0
+    right = len(sorted_lst) - 1
+    while left <= right:
+        if left == right:
+            result.append(sorted_lst[left])
+        else:
+            result.extend([sorted_lst[left], sorted_lst[right]])
+        left += 1
+        right -= 1
+    return result
+```",1.0,True,
+7b,humaneval,HumanEval/71,"```python
+import math
+
+def triangle_area(a, b, c):
+    '''
+    Given the lengths of the three sides of a triangle. Return the area of
+    the triangle rounded to 2 decimal points if the three sides form a valid triangle. 
+    Otherwise return -1
+    Three sides make a valid triangle when the sum of any two sides is greater 
+    than the third side.
+    Example:
+    triangle_area(3, 4, 5) == 6.00
+    triangle_area(1, 2, 10) == -1
+    '''
+    # Check if the sides form a valid triangle
+    if a + b > c and a + c > b and b + c > a:
+        # Calculate the semi-perimeter
+        s = (a + b + c) / 2
+        # Calculate the area using Heron's formula
+        area = math.sqrt(s * (s - a) * (s - b) * (s - c))
+        # Round the area to 2 decimal points
+        return round(area, 2)
+    else:
+        return -1
+```",1.0,True,
+7b,humaneval,HumanEval/77,"```python
+import math
+
+def iscube(a):
+    '''
+    Write a function that takes an integer a and returns True 
+    if this integer is a cube of some integer number.
+    Note: you may assume the input is always valid.
+    Examples:
+    iscube(1) ==> True
+    iscube(2) ==> False
+    iscube(-1) ==> True
+    iscube(64) ==> True
+    iscube(0) ==> True
+    iscube(180) ==> False
+    '''
+    if a == 0:
+        return True
+    abs_a = abs(a)
+    root = round(abs_a ** (1/3))
+    return root ** 3 == abs_a
+```",1.0,True,
+7b,humaneval,HumanEval/86,"```python
+def anti_shuffle(s):
+    """"""
+    Write a function that takes a string and returns an ordered version of it.
+    Ordered version of string, is a string where all words (separated by space)
+    are replaced by a new word where all the characters arranged in
+    ascending order based on ascii value.
+    Note: You should keep the order of words and blank spaces in the sentence.
+
+    For example:
+    anti_shuffle('Hi') returns 'Hi'
+    anti_shuffle('hello') returns 'ehllo'
+    anti_shuffle('Hello World!!!') returns 'Hello !!!Wdlor'
+    """"""
+    import re
+    
+    def sort_word(word):
+        return ''.join(sorted(word))
+    
+    # Split the string into words and non-word characters
+    tokens = re.findall(r'\b\w+\b|[^\w\s]', s)
+    
+    # Sort each word while keeping non-word characters as they are
+    sorted_tokens = [sort_word(token) if token.isalpha() else token for token in tokens]
+    
+    # Join the sorted tokens back into a single string
+    return ''.join(sorted_tokens)
+
+# Test cases
+print(anti_shuffle('Hi'))  # Output: 'Hi'
+print(anti_shuffle('hello'))  # Output: 'ehllo'
+print(anti_shuffle('Hello World!!!'))  # Output: 'Hello !!!Wdlor'
+```",0.0,False,AssertionError
+7b,humaneval,HumanEval/87,"```python
+from typing import List, Tuple
+
+def get_row(lst: List[List[int]], x: int) -> List[Tuple[int, int]]:
+    """"""
+    You are given a 2 dimensional data, as a nested lists,
+    which is similar to matrix, however, unlike matrices,
+    each row may contain a different number of columns.
+    Given lst, and integer x, find integers x in the list,
+    and return list of tuples, [(x1, y1), (x2, y2) ...] such that
+    each tuple is a coordinate - (row, columns), starting with 0.
+    Sort coordinates initially by rows in ascending order.
+    Also, sort coordinates of the row by columns in descending order.
+    
+    Examples:
+    get_row([
+      [1,2,3,4,5,6],
+      [1,2,3,4,1,6],
+      [1,2,3,4,5,1]
+    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]
+    get_row([], 1) == []
+    get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]
+    """"""
+    result = []
+    for i, row in enumerate(lst):
+        for j, value in enumerate(row[::-1]):  # Reverse row to handle column sorting later
+            if value == x:
+                result.append((i, len(row) - 1 - j))  # Convert reversed index back to original index
+    
+    # Sort by row in ascending order and then by column in descending order within each row
+    result.sort(key=lambda item: (item[0], -item[1]))
+    
+    return result
+```",1.0,True,
+7b,humaneval,HumanEval/93,"```python
+import string
+
+def encode(message):
+    """"""
+    Write a function that takes a message, and encodes in such a 
+    way that it swaps case of all letters, replaces all vowels in 
+    the message with the letter that appears 2 places ahead of that 
+    vowel in the english alphabet. 
+    Assume only letters. 
+    
+    Examples:
+    >>> encode('test')
+    'TGST'
+    >>> encode('This is a message')
+    'tHKS KS C MGSSCGG'
+    """"""
+    # Define the mapping for vowels to their corresponding characters two places ahead
+    vowel_mapping = {
+        'a': 'c', 'e': 'g', 'i': 'k', 'o': 'q', 'u': 'w',
+        'A': 'C', 'E': 'G', 'I': 'K', 'O': 'Q', 'U': 'W'
+    }
+    
+    # Initialize the encoded message
+    encoded_message = []
+    
+    # Iterate over each character in the message
+    for char in message:
+        if char.isalpha():
+            # Swap the case of the character
+            swapped_char = char.swapcase()
+            
+            # Replace the vowel with its corresponding character from the mapping
+            if swapped_char in vowel_mapping:
+                encoded_message.append(vowel_mapping[swapped_char])
+            else:
+                encoded_message.append(swapped_char)
+        else:
+            # If the character is not a letter, just append it as is
+            encoded_message.append(char)
+    
+    # Join the list into a string and return the encoded message
+    return ''.join(encoded_message)
+
+# Test cases
+print(encode('test'))  # Output: 'TGST'
+print(encode('This is a message'))  # Output: 'tHKS KS C MGSSCGG'
+```",1.0,True,
+7b,humaneval,HumanEval/97,"```python
+def multiply(a, b):
+    """"""Complete the function that takes two integers and returns 
+    the product of their unit digits.
+    Assume the input is always valid.
+    Examples:
+    multiply(148, 412) should return 16.
+    multiply(19, 28) should return 72.
+    multiply(2020, 1851) should return 0.
+    multiply(14,-15) should return 20.
+    """"""
+    # Extract the unit digits of both numbers
+    unit_digit_a = abs(a) % 10
+    unit_digit_b = abs(b) % 10
+    
+    # Return the product of the unit digits
+    return unit_digit_a * unit_digit_b
+```",1.0,True,
+7b,humaneval,HumanEval/103,"```python
+import math
+
+def rounded_avg(n, m):
+    """"""You are given two positive integers n and m, and your task is to compute the
+    average of the integers from n through m (including n and m). 
+    Round the answer to the nearest integer and convert that to binary.
+    If n is greater than m, return -1.
+    Example:
+    rounded_avg(1, 5) => ""0b11""
+    rounded_avg(7, 5) => -1
+    rounded_avg(10, 20) => ""0b1111""
+    rounded_avg(20, 33) => ""0b11010""
+    """"""
+    if n > m:
+        return -1
+    
+    total = sum(range(n, m + 1))
+    count = m - n + 1
+    avg = round(total / count)
+    
+    return bin(avg)
+```",1.0,True,
+7b,humaneval,HumanEval/107,"```python
+from typing import Tuple
+
+def even_odd_palindrome(n: int) -> Tuple[int, int]:
+    """"""
+    Given a positive integer n, return a tuple that has the number of even and odd
+    integer palindromes that fall within the range(1, n), inclusive.
+
+    Example 1:
+
+        Input: 3
+        Output: (1, 2)
+        Explanation:
+        Integer palindrome are 1, 2, 3. one of them is even, and two of them are odd.
+
+    Example 2:
+
+        Input: 12
+        Output: (4, 6)
+        Explanation:
+        Integer palindrome are 1, 2, 3, 4, 5, 6, 7, 8, 9, 11. four of them are even, and 6 of them are odd.
+
+    Note:
+        1. 1 <= n <= 10^3
+        2. returned tuple has the number of even and odd integer palindromes respectively.
+    """"""
+
+    def is_palindrome(num: int) -> bool:
+        return str(num) == str(num)[::-1]
+
+    even_count = 0
+    odd_count = 0
+
+    for i in range(1, n + 1):
+        if is_palindrome(i):
+            if i % 2 == 0:
+                even_count += 1
+            else:
+                odd_count += 1
+
+    return even_count, odd_count
+```",1.0,True,
+7b,humaneval,HumanEval/108,"```python
+from typing import List
+
+def count_nums(arr: List[int]) -> int:
+    """"""
+    Write a function count_nums which takes an array of integers and returns
+    the number of elements which has a sum of digits > 0.
+    If a number is negative, then its first signed digit will be negative:
+    e.g. -123 has signed digits -1, 2, and 3.
+    >>> count_nums([]) == 0
+    >>> count_nums([-1, 11, -11]) == 1
+    >>> count_nums([1, 1, 2]) == 3
+    """"""
+    def sum_of_digits(n: int) -> int:
+        if n >= 0:
+            return sum(int(digit) for digit in str(n))
+        else:
+            digits = [int(d) for d in str(n)[1:]]
+            digits[0] *= -1
+            return sum(digits)
+    
+    return sum(1 for num in arr if sum_of_digits(num) > 0)
+
+# Test cases
+assert count_nums([]) == 0
+assert count_nums([-1, 11, -11]) == 1
+assert count_nums([1, 1, 2]) == 3
+```",1.0,True,
+7b,humaneval,HumanEval/114,"```python
+from typing import List
+
+def minSubArraySum(nums: List[int]) -> int:
+    """"""
+    Given an array of integers nums, find the minimum sum of any non-empty sub-array
+    of nums.
+    Example
+    minSubArraySum([2, 3, 4, 1, 2, 4]) == 1
+    minSubArraySum([-1, -2, -3]) == -6
+    """"""
+    if not nums:
+        return 0
+    
+    min_sum = float('inf')
+    current_sum = 0
+    
+    for num in nums:
+        current_sum = min(num, current_sum + num)
+        min_sum = min(min_sum, current_sum)
+    
+    return min_sum
+```",1.0,True,
+7b,humaneval,HumanEval/129,"```python
+from typing import List
+
+def minPath(grid: List[List[int]], k: int) -> List[int]:
+    N = len(grid)
+    
+    # Initialize the DP table with infinity
+    dp = [[[float('inf')] * (k + 1) for _ in range(N)] for _ in range(N)]
+    
+    # Directions for moving up, down, left, right
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    
+    # Helper function to check if a position is within the grid bounds
+    def in_bounds(x, y):
+        return 0 <= x < N and 0 <= y < N
+    
+    # Fill the DP table
+    for i in range(N):
+        for j in range(N):
+            for steps in range(1, k + 1):
+                if steps == 1:
+                    dp[i][j][steps] = grid[i][j]
+                else:
+                    for dx, dy in directions:
+                        nx, ny = i + dx, j + dy
+                        if in_bounds(nx, ny):
+                            dp[i][j][steps] = min(dp[i][j][steps], dp[nx][ny][steps - 1] + grid[i][j])
+    
+    # Find the minimum path
+    min_value = float('inf')
+    min_path = []
+    for i in range(N):
+        for j in range(N):
+            if dp[i][j][k] < min_value:
+                min_value = dp[i][j][k]
+                min_path = [grid[i][j]]
+                x, y = i, j
+                for steps in range(k - 1, 0, -1):
+                    for dx, dy in directions:
+                        nx, ny = x + dx, y + dy
+                        if in_bounds(nx, ny) and dp[nx][ny][steps] == dp[x][y][steps + 1]:
+                            min_path.append(grid[nx][ny])
+                            x, y = nx, ny
+                            break
+    
+    return min_path[::-1]
+```",0.0,False,AssertionError
+7b,humaneval,HumanEval/135,"```python
+from typing import List
+
+def can_arrange(arr: List[int]) -> int:
+    """"""Create a function which returns the largest index of an element which
+    is not greater than or equal to the element immediately preceding it. If
+    no such element exists then return -1. The given array will not contain
+    duplicate values.
+
+    Examples:
+    can_arrange([1,2,4,3,5]) = 3
+    can_arrange([1,2,3]) = -1
+    """"""
+    for i in range(len(arr) - 1, 0, -1):
+        if arr[i] < arr[i - 1]:
+            return i
+    return -1
+```",1.0,True,
+7b,humaneval,HumanEval/138,"```python
+def is_equal_to_sum_even(n):
+    """"""Evaluate whether the given number n can be written as the sum of exactly 4 positive even numbers
+    Example
+    is_equal_to_sum_even(4) == False
+    is_equal_to_sum_even(6) == False
+    is_equal_to_sum_even(8) == True
+    """"""
+    # The smallest sum of 4 positive even numbers is 2 + 2 + 2 + 2 = 8
+    if n < 8:
+        return False
+    
+    # If n is even and greater than or equal to 8, it can always be expressed as the sum of 4 even numbers
+    return n % 2 == 0
+```",1.0,True,
+7b,humaneval,HumanEval/139,"```python
+import math
+
+def special_factorial(n):
+    """"""The Brazilian factorial is defined as:
+    brazilian_factorial(n) = n! * (n-1)! * (n-2)! * ... * 1!
+    where n > 0
+
+    For example:
+    >>> special_factorial(4)
+    288
+
+    The function will receive an integer as input and should return the special
+    factorial of this integer.
+    """"""
+    result = 1
+    for i in range(1, n + 1):
+        result *= math.factorial(i)
+    return result
+```",1.0,True,
+7b,humaneval,HumanEval/143,"```python
+import math
+
+def words_in_sentence(sentence):
+    """"""
+    You are given a string representing a sentence,
+    the sentence contains some words separated by a space,
+    and you have to return a string that contains the words from the original sentence,
+    whose lengths are prime numbers,
+    the order of the words in the new string should be the same as the original one.
+
+    Example 1:
+        Input: sentence = ""This is a test""
+        Output: ""is""
+
+    Example 2:
+        Input: sentence = ""lets go for swimming""
+        Output: ""go for""
+
+    Constraints:
+        * 1 <= len(sentence) <= 100
+        * sentence contains only letters
+    """"""
+
+    def is_prime(n):
+        if n <= 1:
+            return False
+        if n <= 3:
+            return True
+        if n % 2 == 0 or n % 3 == 0:
+            return False
+        i = 5
+        while i * i <= n:
+            if n % i == 0 or n % (i + 2) == 0:
+                return False
+            i += 6
+        return True
+
+    words = sentence.split()
+    prime_length_words = [word for word in words if is_prime(len(word))]
+    return ' '.join(prime_length_words)
+```",1.0,True,
+7b,humaneval,HumanEval/148,"```python
+def bf(planet1, planet2):
+    '''
+    There are eight planets in our solar system: the closerst to the Sun 
+    is Mercury, the next one is Venus, then Earth, Mars, Jupiter, Saturn, 
+    Uranus, Neptune.
+    Write a function that takes two planet names as strings planet1 and planet2. 
+    The function should return a tuple containing all planets whose orbits are 
+    located between the orbit of planet1 and the orbit of planet2, sorted by 
+    the proximity to the sun. 
+    The function should return an empty tuple if planet1 or planet2
+    are not correct planet names. 
+    Examples
+    bf(""Jupiter"", ""Neptune"") ==> (""Saturn"", ""Uranus"")
+    bf(""Earth"", ""Mercury"") ==> (""Venus"")
+    bf(""Mercury"", ""Uranus"") ==> (""Venus"", ""Earth"", ""Mars"", ""Jupiter"", ""Saturn"")
+    '''
+    
+    # List of planets ordered by their proximity to the Sun
+    planets = [""Mercury"", ""Venus"", ""Earth"", ""Mars"", ""Jupiter"", ""Saturn"", ""Uranus"", ""Neptune""]
+    
+    # Check if both planet names are valid
+    if planet1 not in planets or planet2 not in planets:
+        return ()
+    
+    # Get the indices of the planets
+    index1 = planets.index(planet1)
+    index2 = planets.index(planet2)
+    
+    # Ensure index1 is less than index2 for slicing
+    if index1 > index2:
+        index1, index2 = index2, index1
+    
+    # Return the tuple of planets between the given two planets
+    return tuple(planets[index1 + 1:index2])
+```",1.0,True,
+7b,humaneval,HumanEval/149,"```python
+from typing import List
+
+def sorted_list_sum(lst: List[str]) -> List[str]:
+    """"""Write a function that accepts a list of strings as a parameter,
+    deletes the strings that have odd lengths from it,
+    and returns the resulted list with a sorted order,
+    The list is always a list of strings and never an array of numbers,
+    and it may contain duplicates.
+    The order of the list should be ascending by length of each word, and you
+    should return the list sorted by that rule.
+    If two words have the same length, sort the list alphabetically.
+    The function should return a list of strings in sorted order.
+    You may assume that all words will have the same length.
+    For example:
+    assert sorted_list_sum([""aa"", ""a"", ""aaa""]) == [""aa""]
+    assert sorted_list_sum([""ab"", ""a"", ""aaa"", ""cd""]) == [""ab"", ""cd""]
+    """"""
+    # Filter out strings with odd lengths
+    even_length_lst = [word for word in lst if len(word) % 2 == 0]
+    
+    # Sort the list by length, then alphabetically
+    even_length_lst.sort(key=lambda x: (len(x), x))
+    
+    return even_length_lst
+```",1.0,True,
+7b,humaneval,HumanEval/151,"```python
+from typing import List
+
+def double_the_difference(lst: List[int]) -> int:
+    '''
+    Given a list of numbers, return the sum of squares of the numbers
+    in the list that are odd. Ignore numbers that are negative or not integers.
+    
+    double_the_difference([1, 3, 2, 0]) == 1 + 9 + 0 + 0 = 10
+    double_the_difference([-1, -2, 0]) == 0
+    double_the_difference([9, -2]) == 81
+    double_the_difference([0]) == 0  
+   
+    If the input list is empty, return 0.
+    '''
+    return sum(x**2 for x in lst if isinstance(x, int) and x >= 0 and x % 2 != 0)
+```",1.0,True,
+7b,humaneval,HumanEval/152,"```python
+from typing import List
+
+def compare(game: List[int], guess: List[int]) -> List[int]:
+    """"""Determine the accuracy of guesses compared to actual game scores.
+    
+    Args:
+        game (List[int]): A list of integers representing the actual scores of the games.
+        guess (List[int]): A list of integers representing the guessed scores of the games.
+        
+    Returns:
+        List[int]: A list of integers representing the absolute differences between the actual scores and the guesses.
+    """"""
+    return [abs(g - s) for g, s in zip(guess, game)]
+```",1.0,True,
+7b,humaneval,HumanEval/155,"```python
+def even_odd_count(num):
+    """"""Given an integer. return a tuple that has the number of even and odd digits respectively.
+
+     Example:
+        even_odd_count(-12) ==> (1, 1)
+        even_odd_count(123) ==> (1, 2)
+    """"""
+    # Convert the number to its absolute value and then to a string
+    num_str = str(abs(num))
+    
+    # Initialize counters for even and odd digits
+    even_count = 0
+    odd_count = 0
+    
+    # Iterate through each character in the string representation of the number
+    for char in num_str:
+        digit = int(char)
+        if digit % 2 == 0:
+            even_count += 1
+        else:
+            odd_count += 1
+    
+    # Return the counts as a tuple
+    return (even_count, odd_count)
+
+# Test cases
+print(even_odd_count(-12))  # Output: (1, 1)
+print(even_odd_count(123))  # Output: (1, 2)
+```",1.0,True,
+7b,humaneval,HumanEval/156,"```python
+from typing import *
+
+def int_to_mini_roman(number):
+    """"""
+    Given a positive integer, obtain its roman numeral equivalent as a string,
+    and return it in lowercase.
+    Restrictions: 1 <= num <= 1000
+
+    Examples:
+    >>> int_to_mini_roman(19) == 'xix'
+    >>> int_to_mini_roman(152) == 'clii'
+    >>> int_to_mini_roman(426) == 'cdxxvi'
+    """"""
+    val = [
+        1000, 900, 500, 400,
+        100, 90, 50, 40,
+        10, 9, 5, 4,
+        1
+    ]
+    syms = [
+        ""m"", ""cm"", ""d"", ""cd"",
+        ""c"", ""xc"", ""l"", ""xl"",
+        ""x"", ""ix"", ""v"", ""iv"",
+        ""i""
+    ]
+    roman_numeral = ''
+    i = 0
+    while number > 0:
+        for _ in range(number // val[i]):
+            roman_numeral += syms[i]
+            number -= val[i]
+        i += 1
+    return roman_numeral
+```",1.0,True,
+7b,humaneval,HumanEval/161,"```python
+def solve(s):
+    """"""You are given a string s.
+    if s[i] is a letter, reverse its case from lower to upper or vise versa, 
+    otherwise keep it as it is.
+    If the string contains no letters, reverse the string.
+    The function should return the resulted string.
+    Examples
+    solve(""1234"") = ""4321""
+    solve(""ab"") = ""AB""
+    solve(""#a@C"") = ""#A@c""
+    """"""
+    has_letters = any(c.isalpha() for c in s)
+    if not has_letters:
+        return s[::-1]
+    
+    result = []
+    for char in s:
+        if char.isalpha():
+            result.append(char.swapcase())
+        else:
+            result.append(char)
+    
+    return ''.join(result)
+
+# Test cases
+print(solve(""1234""))  # Output: ""4321""
+print(solve(""ab""))    # Output: ""AB""
+print(solve(""#a@C""))  # Output: ""#A@c""
+```",1.0,True,
+7b,humaneval,HumanEval/163,"```python
+from typing import List
+
+def generate_integers(a: int, b: int) -> List[int]:
+    """"""
+    Given two positive integers a and b, return the even digits between a
+    and b, in ascending order.
+
+    For example:
+    generate_integers(2, 8) => [2, 4, 6, 8]
+    generate_integers(8, 2) => [2, 4, 6, 8]
+    generate_integers(10, 14) => []
+    """"""
+    # Ensure a is less than or equal to b for the range function
+    if a > b:
+        a, b = b, a
+    
+    # Generate the list of even numbers in the range
+    even_numbers = [num for num in range(a, b + 1) if num % 2 == 0]
+    
+    return even_numbers
+```",0.0,False,AssertionError: Test 1
+7b,mbpp,mbpp/12,"```python
+def sort_matrix(matrix):
+    # Sort the matrix based on the sum of each row
+    sorted_matrix = sorted(matrix, key=lambda row: sum(row))
+    return sorted_matrix
+
+# Tests:
+assert sort_matrix([[1, 2, 3], [2, 4, 5], [1, 1, 1]]) == [[1, 1, 1], [1, 2, 3], [2, 4, 5]]
+assert sort_matrix([[1, 2, 3], [-2, 4, -5], [1, -1, 1]]) == [[-2, 4, -5], [1, -1, 1], [1, 2, 3]]
+assert sort_matrix([[5, 8, 9], [6, 4, 3], [2, 1, 4]]) == [[2, 1, 4], [6, 4, 3], [5, 8, 9]]
+```",1.0,True,
+7b,mbpp,mbpp/19,"```python
+def test_duplicate(arr):
+    """"""
+    Write a function to find whether a given array of integers contains any duplicate element.
+    """"""
+    seen = set()
+    for num in arr:
+        if num in seen:
+            return True
+        seen.add(num)
+    return False
+```",1.0,True,
+7b,mbpp,mbpp/20,"```python
+def is_woodall(n):
+    """"""
+    Write a function to check if the given number is woodball or not.
+    """"""
+    if n <= 1:
+        return False
+    
+    # Check if n is of the form k * 2^k - 1
+    k = 1
+    while k * (2 ** k - 1) < n:
+        k += 1
+    
+    return k * (2 ** k - 1) == n
+
+# Tests:
+assert is_woodall(383) == True
+assert is_woodall(254) == False
+assert is_woodall(200) == False
+```",0.0,False,AssertionError
+7b,mbpp,mbpp/56,"```python
+def check(n):
+    # Function to reverse the digits of a number
+    def reverse(num):
+        reversed_num = 0
+        while num > 0:
+            reversed_num = reversed_num * 10 + num % 10
+            num //= 10
+        return reversed_num
+    
+    # Check if the number is one less than twice its reverse
+    return n == 2 * reverse(n) - 1
+
+# Tests:
+assert check(70) == False
+assert check(23) == False
+assert check(73) == True
+```",1.0,True,
+7b,mbpp,mbpp/61,"```python
+from collections import defaultdict
+
+def count_Substrings(s):
+    # Dictionary to store the frequency of prefix sums
+    prefix_sum_count = defaultdict(int)
+    prefix_sum_count[0] = 1  # Initialize with sum 0 having one occurrence
+    
+    current_sum = 0
+    count = 0
+    
+    for char in s:
+        current_sum += int(char)
+        
+        # The number of valid substrings ending at the current index
+        count += prefix_sum_count[current_sum - len(s)]
+        
+        # Update the frequency of the current prefix sum
+        prefix_sum_count[current_sum - len(s)] += 1
+    
+    return count
+
+# Tests:
+assert count_Substrings('112112') == 6
+assert count_Substrings('111') == 6
+assert count_Substrings('1101112') == 12
+```
+
+This code defines a function `count_Substrings` that takes a string `s` as input and returns the number of substrings where the sum of the digits equals their length. The function uses a dictionary `prefix_sum_count` to keep track of the frequency of prefix sums encountered so far. It iterates through the string, updating the current sum and counting the number of valid substrings based on the difference between the current sum and the length of the substring. Finally, it returns the total count of such substrings.",0.0,False,AssertionError
+7b,mbpp,mbpp/71,"```python
+def comb_sort(arr):
+    """"""
+    Write a function to sort a list of elements using the Comb Sort algorithm.
+    """"""
+    gap = len(arr)
+    shrink_factor = 1.3
+    sorted = False
+
+    while not sorted or gap > 1:
+        if gap > 1:
+            gap = int(gap / shrink_factor)
+
+        sorted = True
+        for i in range(len(arr) - gap):
+            if arr[i] > arr[i + gap]:
+                arr[i], arr[i + gap] = arr[i + gap], arr[i]
+                sorted = False
+
+    return arr
+
+# Tests:
+assert comb_sort([5, 15, 37, 25, 79]) == [5, 15, 25, 37, 79]
+assert comb_sort([41, 32, 15, 19, 22]) == [15, 19, 22, 32, 41]
+assert comb_sort([99, 15, 13, 47]) == [13, 15, 47, 99]
+```",1.0,True,
+7b,mbpp,mbpp/72,"```python
+def dif_Square(n):
+    # Check if n is even and greater than 2
+    if n % 2 == 0 and n > 2:
+        return False
+    else:
+        return True
+
+# Tests:
+assert dif_Square(5) == True
+assert dif_Square(10) == False
+assert dif_Square(15) == True
+```",1.0,True,
+7b,mbpp,mbpp/77,"```python
+def is_Diff(n):
+    """"""
+    Write a python function to find whether a number is divisible by 11.
+    """"""
+    # Convert the number to a string to easily access each digit
+    num_str = str(n)
+    
+    # Calculate the alternating sum of digits
+    alt_sum = sum(int(digit) if i % 2 == 0 else -int(digit) for i, digit in enumerate(num_str))
+    
+    # Check if the alternating sum is divisible by 11
+    return alt_sum % 11 == 0
+```",1.0,True,
+7b,mbpp,mbpp/88,"```python
+from collections import defaultdict
+
+def freq_count(lst):
+    """"""
+    Write a function to get the frequency of all the elements in a list, returned as a dictionary.
+    """"""
+    frequency = defaultdict(int)
+    for item in lst:
+        frequency[item] += 1
+    return dict(frequency)
+
+# Tests:
+assert freq_count([10,10,10,10,20,20,20,20,40,40,50,50,30]) == {10: 4, 20: 4, 40: 2, 50: 2, 30: 1}
+assert freq_count([1,2,3,4,3,2,4,1,3,1,4]) == {1: 3, 2: 2, 3: 3, 4: 3}
+assert freq_count([5,6,7,4,9,10,4,5,6,7,9,5]) == {10: 1, 5: 3, 6: 2, 7: 2, 4: 2, 9: 2}
+```",1.0,True,
+7b,mbpp,mbpp/92,"```python
+def is_undulating(n):
+    """"""
+    Write a function to check whether the given number is undulating or not.
+    """"""
+    s = str(n)
+    if len(s) < 3 or len(s) % 2 != 0:
+        return False
+    for i in range(2, len(s), 2):
+        if s[i] != s[i-2]:
+            return False
+    return True
+
+# Tests:
+assert is_undulating(1212121) == True
+assert is_undulating(1991) == False
+assert is_undulating(121) == True
+```",0.0,False,AssertionError
+7b,mbpp,mbpp/93,"```python
+def power(a, b):
+    """"""
+    Write a function to calculate the value of 'a' to the power 'b'.
+    """"""
+    return a ** b
+
+# Tests:
+assert power(3,4) == 81
+assert power(2,3) == 8
+assert power(5,5) == 3125
+```",1.0,True,
+7b,mbpp,mbpp/103,"```python
+from math import factorial
+
+def eulerian_num(n, m):
+    """"""
+    Write a function to find the Eulerian number a(n, m).
+    """"""
+    if m >= n or n == 0:
+        return 0
+    if m == 0:
+        return 1
+    return ((n - m) * eulerian_num(n - 1, m - 1) + (m + 1) * eulerian_num(n - 1, m))
+
+# Tests:
+assert eulerian_num(3, 1) == 4
+assert eulerian_num(4, 1) == 11
+assert eulerian_num(5, 3) == 26
+```",1.0,True,
+7b,mbpp,mbpp/109,"```python
+def odd_Equivalent(s: str, n: int) -> int:
+    count = 0
+    for i in range(n):
+        if int(s, 2) % 2 != 0:
+            count += 1
+        s = s[-1] + s[:-1]
+    return count
+```",1.0,True,
+7b,mbpp,mbpp/111,"```python
+from typing import List
+
+def common_in_nested_lists(nested_lists: List[List[int]]) -> List[int]:
+    """"""
+    Write a function to find the common elements in given nested lists.
+    """"""
+    if not nested_lists:
+        return []
+    
+    # Convert each sublist to a set to remove duplicates and allow for intersection
+    sets = [set(sublist) for sublist in nested_lists]
+    
+    # Find the intersection of all sets
+    common_elements = set.intersection(*sets)
+    
+    # Return the result as a sorted list
+    return sorted(list(common_elements))
+
+# Tests:
+assert set(common_in_nested_lists([[12, 18, 23, 25, 45], [7, 12, 18, 24, 28], [1, 5, 8, 12, 15, 16, 18]])) == set([18, 12])
+assert set(common_in_nested_lists([[12, 5, 23, 25, 45], [7, 11, 5, 23, 28], [1, 5, 8, 18, 23, 16]])) == set([5, 23])
+assert set(common_in_nested_lists([[2, 3, 4, 1], [4, 5], [6, 4, 8], [4, 5], [6, 8, 4]])) == set([4])
+```",1.0,True,
+7b,mbpp,mbpp/113,"```python
+def check_integer(s):
+    """"""
+    Write a function to check if a string represents an integer or not.
+    """"""
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
+
+# Tests:
+assert check_integer(""python"") == False
+assert check_integer(""1"") == True
+assert check_integer(""12345"") == True
+```",1.0,True,
+7b,mbpp,mbpp/116,"```python
+def tuple_to_int(tup):
+    # Convert each element in the tuple to a string
+    str_tuple = ''.join(str(element) for element in tup)
+    # Convert the concatenated string back to an integer
+    result = int(str_tuple)
+    return result
+
+# Tests:
+assert tuple_to_int((1, 2, 3)) == 123
+assert tuple_to_int((4, 5, 6)) == 456
+assert tuple_to_int((5, 6, 7)) == 567
+```",1.0,True,
+7b,mbpp,mbpp/119,"```python
+from typing import List
+
+def search(nums: List[int]) -> int:
+    left, right = 0, len(nums) - 1
+    
+    while left < right:
+        mid = left + (right - left) // 2
+        
+        # Ensure mid is even so we can check pairs
+        if mid % 2 == 1:
+            mid -= 1
+        
+        # If the pair is not matching, the single element must be on the left side
+        if nums[mid] != nums[mid + 1]:
+            right = mid
+        else:
+            left = mid + 2
+    
+    return nums[left]
+
+# Tests:
+assert search([1,1,2,2,3]) == 3
+assert search([1,1,3,3,4,4,5,5,7,7,8]) == 8
+assert search([1,2,2,3,3,4,4]) == 1
+```",1.0,True,
+7b,mbpp,mbpp/129,"```python
+import numpy as np
+
+def magic_square_test(matrix):
+    """"""
+    Write a function to calculate whether the matrix is a magic square.
+    """"""
+    n = len(matrix)
+    if n == 0 or any(len(row) != n for row in matrix):
+        return False
+    
+    # Calculate the sum of the first row to use as a reference
+    target_sum = sum(matrix[0])
+    
+    # Check sums of rows
+    for row in matrix:
+        if sum(row) != target_sum:
+            return False
+    
+    # Check sums of columns
+    for col in range(n):
+        if sum(matrix[row][col] for row in range(n)) != target_sum:
+            return False
+    
+    # Check sum of main diagonal
+    if sum(matrix[i][i] for i in range(n)) != target_sum:
+        return False
+    
+    # Check sum of secondary diagonal
+    if sum(matrix[i][n-1-i] for i in range(n)) != target_sum:
+        return False
+    
+    return True
+```",1.0,True,
+7b,mbpp,mbpp/130,"```python
+from collections import Counter
+
+def max_occurrences(lst):
+    """"""
+    Write a function to find the item with maximum frequency in a given list.
+    """"""
+    # Count the occurrences of each item in the list
+    count = Counter(lst)
+    # Find the item with the maximum occurrence
+    max_item = max(count, key=count.get)
+    return max_item
+
+# Tests:
+assert max_occurrences([2,3,8,4,7,9,8,2,6,5,1,6,1,2,3,2,4,6,9,1,2]) == 2
+assert max_occurrences([2,3,8,4,7,9,8,7,9,15,14,10,12,13,16,18]) == 8
+assert max_occurrences([10,20,20,30,40,90,80,50,30,20,50,10]) == 20
+```",1.0,True,
+7b,mbpp,mbpp/162,"```python
+def sum_series(n):
+    """"""
+    Write a function to calculate the sum (n - 2*i) from i=0 to n // 2, for instance n + (n-2) + (n-4)... (until n-x =< 0).
+    """"""
+    total_sum = 0
+    for i in range(n // 2 + 1):
+        total_sum += n - 2 * i
+    return total_sum
+
+# Tests:
+assert sum_series(6) == 12
+assert sum_series(10) == 30
+assert sum_series(9) == 25
+```",1.0,True,
+7b,mbpp,mbpp/163,"```python
+import math
+
+def area_polygon(sides, length):
+    """"""
+    Calculate the area of a regular polygon given the length and number of its sides.
+    
+    :param sides: Number of sides of the polygon
+    :param length: Length of each side of the polygon
+    :return: Area of the polygon
+    """"""
+    # The formula for the area of a regular polygon is:
+    # (sides * length^2) / (4 * tan(pi / sides))
+    area = (sides * length ** 2) / (4 * math.tan(math.pi / sides))
+    return area
+
+# Tests:
+assert math.isclose(area_polygon(4, 20), 400., rel_tol=0.001)
+assert math.isclose(area_polygon(10, 15), 1731.197, rel_tol=0.001)
+assert math.isclose(area_polygon(9, 7), 302.909, rel_tol=0.001)
+```",1.0,True,
+7b,mbpp,mbpp/235,"```python
+def even_bit_set_number(n):
+    # Initialize a variable to keep track of the result
+    result = n
+    
+    # Iterate through each bit position
+    for i in range(0, 32, 2):  # Assuming a 32-bit integer for simplicity
+        # Set the bit at the current even position to 1
+        result |= (1 << i)
+    
+    return result
+
+# Tests:
+assert even_bit_set_number(10) == 10
+assert even_bit_set_number(20) == 30
+assert even_bit_set_number(30) == 30
+```",0.0,False,AssertionError
+7b,mbpp,mbpp/237,"```python
+from collections import defaultdict
+
+def check_occurrences(tuples_list):
+    """"""
+    Write a function that takes in a list of tuples and returns a dictionary mapping each unique tuple to the number of times it occurs in the list.
+    """"""
+    occurrences = defaultdict(int)
+    for tup in tuples_list:
+        occurrences[tup] += 1
+    return dict(occurrences)
+
+# Tests:
+assert check_occurrences([(3, 1), (1, 3), (2, 5), (5, 2), (6, 3)]) == {(3, 1): 1, (1, 3): 1, (2, 5): 1, (5, 2): 1, (6, 3): 1}
+assert check_occurrences([(4, 2), (2, 4), (3, 6), (6, 3), (7, 4)]) == {(4, 2): 1, (2, 4): 1, (3, 6): 1, (6, 3): 1, (7, 4): 1}
+assert check_occurrences([(13, 2), (11, 23), (12, 25), (25, 12), (16, 23)]) == {(13, 2): 1, (11, 23): 1, (12, 25): 1, (25, 12): 1, (16, 23): 1}
+```",0.0,False,NameError: name 'check_occurences' is not defined. Did you mean: 'check_occurrences'?
+7b,mbpp,mbpp/245,"```python
+from typing import List
+
+def max_sum(arr: List[int]) -> int:
+    n = len(arr)
+    
+    # Initialize two arrays to store the maximum sum till each index from left and right
+    lis = [arr[i] for i in range(n)]
+    lds = [arr[i] for i in range(n)]
+    
+    # Compute maximum sum increasing subsequence for all indices
+    for i in range(1, n):
+        for j in range(i):
+            if arr[i] > arr[j] and lis[i] < lis[j] + arr[i]:
+                lis[i] = lis[j] + arr[i]
+    
+    # Compute maximum sum decreasing subsequence for all indices
+    for i in range(n-2, -1, -1):
+        for j in range(n-1, i, -1):
+            if arr[i] > arr[j] and lds[i] < lds[j] + arr[i]:
+                lds[i] = lds[j] + arr[i]
+    
+    # Find the maximum sum of bitonic subsequence
+    max_sum_bitonic = 0
+    for i in range(n):
+        max_sum_bitonic = max(max_sum_bitonic, lis[i] + lds[i] - arr[i])
+    
+    return max_sum_bitonic
+```",1.0,True,
+7b,mbpp,mbpp/262,"```python
+def split_two_parts(lst, L):
+    """"""
+    Write a function that takes in a list and an integer L and splits the given list into two parts where the length of the first part of the list is L, and returns the resulting lists in a tuple.
+    """"""
+    # Split the list into two parts
+    first_part = lst[:L]
+    second_part = lst[L:]
+    
+    # Return the resulting lists as a tuple
+    return first_part, second_part
+
+# Tests:
+assert split_two_parts([1,1,2,3,4,4,5,1],3)==([1, 1, 2], [3, 4, 4, 5, 1])
+assert split_two_parts(['a', 'b', 'c', 'd'],2)==(['a', 'b'], ['c', 'd'])
+assert split_two_parts(['p', 'y', 't', 'h', 'o', 'n'],4)==(['p', 'y', 't', 'h'], ['o', 'n'])
+```",1.0,True,
+7b,mbpp,mbpp/273,"```python
+def substract_elements(tuple1, tuple2):
+    """"""
+    Write a function that takes in two tuples and subtracts the elements of the first tuple by the elements of the second tuple with the same index.
+    """"""
+    # Using zip to iterate over both tuples simultaneously and subtracting corresponding elements
+    result = tuple(a - b for a, b in zip(tuple1, tuple2))
+    return result
+
+# Tests:
+assert substract_elements((10, 4, 5), (2, 5, 18)) == (8, -1, -13)
+assert substract_elements((11, 2, 3), (24, 45 ,16)) == (-13, -43, -13)
+assert substract_elements((7, 18, 9), (10, 11, 12)) == (-3, 7, -3)
+```",1.0,True,
+7b,mbpp,mbpp/278,"```python
+def count_first_elements(tup):
+    # Iterate through each element in the tuple
+    for i, element in enumerate(tup):
+        # Check if the current element is a tuple
+        if isinstance(element, tuple):
+            # If it is, return the index of this element
+            return i
+
+# Test cases
+assert count_first_elements((1, 5, 7, (4, 6), 10)) == 3
+assert count_first_elements((2, 9, (5, 7), 11)) == 2
+assert count_first_elements((11, 15, 5, 8, (2, 3), 8)) == 4
+```",1.0,True,
+7b,mbpp,mbpp/285,"```python
+import re
+
+def text_match_two_three(text):
+    """"""
+    Write a function that checks whether a string contains the 'a' character followed by two or three 'b' characters.
+    """"""
+    pattern = r'a[b]{2,3}'
+    return bool(re.search(pattern, text))
+
+# Tests:
+assert text_match_two_three(""ac"") == False
+assert text_match_two_three(""dc"") == False
+assert text_match_two_three(""abbbba"") == True
+```",1.0,True,
+7b,mbpp,mbpp/286,"```python
+from typing import List
+
+def max_sub_array_sum_repeated(arr: List[int], n: int, k: int) -> int:
+    """"""
+    Write a function to find the largest sum of a contiguous array in the modified array which is formed by repeating the given array k times.
+    """"""
+    # Repeat the array k times
+    repeated_arr = arr * k
+    
+    # Initialize variables to store the maximum sum and the current sum
+    max_sum = float('-inf')
+    current_sum = 0
+    
+    # Iterate through the repeated array
+    for num in repeated_arr:
+        current_sum += num
+        if current_sum > max_sum:
+            max_sum = current_sum
+        if current_sum < 0:
+            current_sum = 0
+    
+    return max_sum
+
+# Tests:
+assert max_sub_array_sum_repeated([10, 20, -30, -1], 4, 3) == 30
+assert max_sub_array_sum_repeated([-1, 10, 20], 3, 2) == 59
+assert max_sub_array_sum_repeated([-1, -2, -3], 3, 3) == -1
+```",1.0,True,
+7b,mbpp,mbpp/291,"```python
+def count_no_of_ways(n, k):
+    if n == 0:
+        return 0
+    if n == 1:
+        return k
+    
+    mod = 10**9 + 7
+    same, diff = k, k * (k - 1)
+    total = same + diff
+    
+    for _ in range(3, n + 1):
+        same = diff % mod
+        diff = total * (k - 1) % mod
+        total = (same + diff) % mod
+    
+    return total
+
+# Tests:
+assert count_no_of_ways(2, 4) == 16
+assert count_no_of_ways(3, 2) == 6
+assert count_no_of_ways(4, 4) == 228
+```",1.0,True,
+7b,mbpp,mbpp/306,"```python
+from typing import List
+
+def max_sum_increasing_subseq(arr: List[int], n: int, i: int, k: int) -> int:
+    # Initialize a list to store the maximum sum increasing subsequence ending at each index
+    dp = [arr[i] for _ in range(n)]
+    
+    # Iterate through the array to fill the dp array
+    for j in range(i + 1, n):
+        if arr[j] > arr[i]:
+            dp[j] = max(dp[j], dp[i] + arr[j])
+    
+    # Include the kth element if it is greater than the i-th element
+    if k > i and arr[k] > arr[i]:
+        dp[k] = max(dp[k], dp[i] + arr[k])
+    
+    # The result is the maximum value in the dp array
+    return max(dp)
+```",0.0,False,AssertionError
+7b,mbpp,mbpp/388,"```python
+import math
+
+def highest_Power_of_2(n):
+    """"""
+    Write a python function to find the highest power of 2 that is less than or equal to n.
+    """"""
+    if n < 1:
+        return None
+    return 2 ** int(math.log2(n))
+
+# Tests:
+assert highest_Power_of_2(10) == 8
+assert highest_Power_of_2(19) == 16
+assert highest_Power_of_2(32) == 32
+```",1.0,True,
+7b,mbpp,mbpp/393,"```python
+from typing import List, Tuple
+
+def max_length_list(lists: List[List[int]]) -> Tuple[int, List[int]]:
+    """"""
+    Find the list with maximum length.
+    
+    Args:
+    lists: A list of lists of integers.
+    
+    Returns:
+    A tuple containing the length of the longest list and the longest list itself.
+    """"""
+    if not lists:
+        return 0, []
+    
+    max_len = max(len(lst) for lst in lists)
+    max_list = next(lst for lst in lists if len(lst) == max_len)
+    
+    return max_len, max_list
+```",1.0,True,
+7b,mbpp,mbpp/394,"```python
+def check_distinct(test_tup):
+    """"""
+    Write a function to check if given tuple contains no duplicates.
+    """"""
+    # Convert the tuple to a set to remove duplicates and compare its length to the original tuple
+    return len(test_tup) == len(set(test_tup))
+
+# Tests:
+assert check_distinct((1, 4, 5, 6, 1, 4)) == False
+assert check_distinct((1, 4, 5, 6)) == True
+assert check_distinct((2, 3, 4, 5, 6)) == True
+```",1.0,True,
+7b,mbpp,mbpp/398,"```python
+def sum_of_digits(numbers):
+    """"""
+    Write a function to compute the sum of digits of each number of a given list.
+    """"""
+    total_sum = 0
+    for num in numbers:
+        if isinstance(num, int):
+            while num > 0:
+                total_sum += num % 10
+                num //= 10
+    return total_sum
+
+# Tests:
+assert sum_of_digits([10,2,56]) == 14
+assert sum_of_digits([[10,20,4,5,'b',70,'a']]) == 19
+assert sum_of_digits([10,20,-4,5,-70]) == 19
+```",0.0,False,AssertionError
+7b,mbpp,mbpp/405,"```python
+def check_tuplex(tuplex, element):
+    """"""
+    Write a function to check whether an element exists within a tuple.
+    """"""
+    return element in tuplex
+
+# Tests:
+assert check_tuplex((""w"", 3, ""r"", ""e"", ""s"", ""o"", ""u"", ""r"", ""c"", ""e""), 'r') == True
+assert check_tuplex((""w"", 3, ""r"", ""e"", ""s"", ""o"", ""u"", ""r"", ""c"", ""e""), '5') == False
+assert check_tuplex((""w"", 3, ""r"", ""e"", ""s"", ""o"", ""u"", ""r"", ""c"", ""e""), 3) == True
+```",1.0,True,
+7b,mbpp,mbpp/406,"```python
+def find_Parity(n):
+    """"""
+    Write a python function to find whether the parity of a given number is odd.
+    """"""
+    return n % 2 != 0
+```",1.0,True,
+7b,mbpp,mbpp/411,"```python
+import re
+
+def snake_to_camel(snake_str):
+    """"""
+    Convert the given snake case string to camel case string.
+    """"""
+    # Split the string by underscore and capitalize each segment except for the underscores
+    words = snake_str.split('_')
+    # Capitalize the first letter of each word and join them together without spaces
+    camel_case_str = ''.join(word.capitalize() for word in words)
+    return camel_case_str
+
+# Tests:
+assert snake_to_camel('android_tv') == 'AndroidTv'
+assert snake_to_camel('google_pixel') == 'GooglePixel'
+assert snake_to_camel('apple_watch') == 'AppleWatch'
+```",1.0,True,
+7b,mbpp,mbpp/412,"```python
+def remove_odd(numbers):
+    """"""
+    Write a python function to remove odd numbers from a given list.
+    """"""
+    return [num for num in numbers if num % 2 == 0]
+
+# Tests:
+assert remove_odd([1,2,3]) == [2]
+assert remove_odd([2,4,6]) == [2,4,6]
+assert remove_odd([10,20,3]) == [10,20]
+```",1.0,True,
+7b,mbpp,mbpp/425,"```python
+def count_element_in_list(lst, element):
+    """"""
+    Write a function to count the number of sublists containing a particular element.
+    """"""
+    count = 0
+    for sublist in lst:
+        if element in sublist:
+            count += 1
+    return count
+
+# Tests:
+assert count_element_in_list([[1, 3], [5, 7], [1, 11], [1, 15, 7]], 1) == 3
+assert count_element_in_list([['A', 'B'], ['A', 'C'], ['A', 'D', 'E'], ['B', 'C', 'D']], 'A') == 3
+assert count_element_in_list([['A', 'B'], ['A', 'C'], ['A', 'D', 'E'], ['B', 'C', 'D']], 'E') == 1
+```",1.0,True,
+7b,mbpp,mbpp/426,"```python
+def filter_oddnumbers(numbers):
+    """"""
+    Write a function to filter odd numbers.
+    """"""
+    return [num for num in numbers if num % 2 != 0]
+
+# Tests:
+assert filter_oddnumbers([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == [1, 3, 5, 7, 9]
+assert filter_oddnumbers([10, 20, 45, 67, 84, 93]) == [45, 67, 93]
+assert filter_oddnumbers([5, 7, 9, 8, 6, 4, 3]) == [5, 7, 9, 3]
+```",1.0,True,
+7b,mbpp,mbpp/441,"```python
+def surfacearea_cube(size):
+    """"""
+    Write a function to find the surface area of a cube of a given size.
+    """"""
+    # Calculate the surface area of the cube
+    surface_area = 6 * (size ** 2)
+    return surface_area
+
+# Tests:
+assert surfacearea_cube(5) == 150
+assert surfacearea_cube(3) == 54
+assert surfacearea_cube(10) == 600
+```",1.0,True,
+7b,mbpp,mbpp/447,"```python
+def cube_nums(nums):
+    """"""
+    Write a function to find cubes of individual elements in a list.
+    """"""
+    return [num ** 3 for num in nums]
+
+# Tests:
+assert cube_nums([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == [1, 8, 27, 64, 125, 216, 343, 512, 729, 1000]
+assert cube_nums([10, 20, 30]) == [1000, 8000, 27000]
+assert cube_nums([12, 15]) == [1728, 3375]
+```",1.0,True,
+7b,mbpp,mbpp/457,"```python
+from typing import List
+
+def Find_Min(lst: List[List[int]]) -> List[int]:
+    """"""
+    Write a python function to find the sublist having minimum length.
+    """"""
+    if not lst:
+        return []
+    
+    min_length = float('inf')
+    min_sublist = []
+    
+    for sublist in lst:
+        if len(sublist) < min_length:
+            min_length = len(sublist)
+            min_sublist = sublist
+    
+    return min_sublist
+```",1.0,True,
+7b,mbpp,mbpp/458,"```python
+def rectangle_area(length, width):
+    """"""
+    Write a function to find the area of a rectangle.
+    """"""
+    return length * width
+```",1.0,True,
+7b,mbpp,mbpp/461,"```python
+def upper_ctr(s):
+    """"""
+    Write a python function to count the upper case characters in a given string.
+    """"""
+    return sum(1 for char in s if char.isupper())
+
+# Tests:
+assert upper_ctr('PYthon') == 1
+assert upper_ctr('BigData') == 1
+assert upper_ctr('program') == 0
+```",0.0,False,AssertionError
+7b,mbpp,mbpp/464,"```python
+def check_value(dictionary, value):
+    """"""
+    Write a function to check if all values are same in a dictionary.
+    """"""
+    # Check if the dictionary is empty
+    if not dictionary:
+        return False
+    
+    # Get the first value from the dictionary
+    first_value = next(iter(dictionary.values()))
+    
+    # Compare each value in the dictionary with the first value
+    for v in dictionary.values():
+        if v != first_value:
+            return False
+    
+    return True
+
+# Tests:
+assert check_value({'Cierra Vega': 12, 'Alden Cantrell': 12, 'Kierra Gentry': 12, 'Pierre Cox': 12}, 10) == False
+assert check_value({'Cierra Vega': 12, 'Alden Cantrell': 12, 'Kierra Gentry': 12, 'Pierre Cox': 12}, 12) == True
+assert check_value({'Cierra Vega': 12, 'Alden Cantrell': 12, 'Kierra Gentry': 12, 'Pierre Cox': 12}, 5) == False
+```",0.0,False,AssertionError
+7b,mbpp,mbpp/471,"```python
+def find_remainder(arr, n):
+    # Initialize the product to 1
+    product = 1
+    
+    # Iterate through each element in the array
+    for num in arr:
+        # Multiply the current product with the number modulo n
+        product = (product * (num % n)) % n
+    
+    # Return the final product modulo n
+    return product
+
+# Tests:
+assert find_remainder([100, 10, 5, 25, 35, 14], 11) == 9
+assert find_remainder([1, 1, 1], 1) == 0
+assert find_remainder([1, 2, 1], 2) == 0
+```",1.0,True,
+7b,mbpp,mbpp/477,"```python
+def is_lower(s):
+    """"""
+    Write a python function to convert the given string to lower case.
+    """"""
+    return s.lower()
+
+# Tests:
+assert is_lower(""InValid"") == ""invalid""
+assert is_lower(""TruE"") == ""true""
+assert is_lower(""SenTenCE"") == ""sentence""
+```",1.0,True,
+7b,mbpp,mbpp/479,"```python
+def first_Digit(n):
+    # Convert the number to a string to easily access the first character
+    n_str = str(n)
+    # Extract the first character and convert it back to an integer
+    first_digit = int(n_str[0])
+    return first_digit
+
+# Tests:
+assert first_Digit(123) == 1
+assert first_Digit(456) == 4
+assert first_Digit(12) == 1
+```",1.0,True,
+7b,humaneval_x_py2java,hex/1,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<String> separateParenGroups(String paren_string) {
+        List<String> result = new ArrayList<>();
+        StringBuilder currentString = new StringBuilder();
+        int currentDepth = 0;
+
+        for (char c : paren_string.toCharArray()) {
+            if (c == '(') {
+                currentDepth++;
+                currentString.append(c);
+            } else if (c == ')') {
+                currentDepth--;
+                currentString.append(c);
+
+                if (currentDepth == 0) {
+                    result.add(currentString.toString());
+                    currentString.setLength(0); // Clear the StringBuilder
+                }
+            }
+        }
+
+        return result;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/5,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<Integer> intersperse(List<Integer> numbers, int delimiter) {
+        if (numbers.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<Integer> result = new ArrayList<>();
+
+        for (int i = 0; i < numbers.size() - 1; i++) {
+            result.add(numbers.get(i));
+            result.add(delimiter);
+        }
+
+        result.add(numbers.get(numbers.size() - 1));
+
+        return result;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/6,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<Integer> parseNestedParens(String paren_string) {
+        List<Integer> result = new ArrayList<>();
+        String[] groups = paren_string.split("" "");
+        
+        for (String group : groups) {
+            if (!group.isEmpty()) {
+                result.add(parseParenGroup(group));
+            }
+        }
+        
+        return result;
+    }
+
+    private int parseParenGroup(String s) {
+        int depth = 0;
+        int maxDepth = 0;
+        for (char c : s.toCharArray()) {
+            if (c == '(') {
+                depth++;
+                maxDepth = Math.max(depth, maxDepth);
+            } else if (c == ')') {
+                depth--;
+            }
+        }
+        return maxDepth;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/7,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<String> filterBySubstring(List<String> strings, String substring) {
+        List<String> filteredList = new ArrayList<>();
+        for (String s : strings) {
+            if (s.contains(substring)) {
+                filteredList.add(s);
+            }
+        }
+        return filteredList;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/8,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<Integer> sumProduct(List<Integer> numbers) {
+        int sumValue = 0;
+        int prodValue = 1;
+
+        for (int n : numbers) {
+            sumValue += n;
+            prodValue *= n;
+        }
+
+        List<Integer> result = new ArrayList<>();
+        result.add(sumValue);
+        result.add(prodValue);
+
+        return result;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/12,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public Optional<String> longest(List<String> strings) {
+        if (strings.isEmpty()) {
+            return Optional.empty();
+        }
+
+        int maxLength = 0;
+        String longestString = null;
+
+        for (String s : strings) {
+            if (s.length() > maxLength) {
+                maxLength = s.length();
+                longestString = s;
+            }
+        }
+
+        return Optional.of(longestString);
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/15,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public String stringSequence(int n) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i <= n; i++) {
+            if (i > 0) {
+                sb.append("" "");
+            }
+            sb.append(i);
+        }
+        return sb.toString();
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/22,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<Integer> filterIntegers(List<Object> values) {
+        List<Integer> result = new ArrayList<>();
+        for (Object value : values) {
+            if (value instanceof Integer) {
+                result.add((Integer) value);
+            }
+        }
+        return result;
+    }
+}
+```",0.0,False,"compile: /tmp/tmp4iq_2jxu/Main.java:10: error: cannot find symbol
+                s.filterIntergers(new ArrayList<>(List.of())).equals(List.of()),
+                 ^
+  symbol:   method filterIntergers(ArrayList<Object>)
+  location: variable s of type Solution
+/tmp/tmp4iq_2jxu/Main.java:11: error: cannot find"
+7b,humaneval_x_py2java,hex/23,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int strlen(String string) {
+        return string.length();
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/26,"```java
+import java.util.*;
+import java.lang.*;
+import java.util.stream.Collectors;
+
+class Solution {
+    public List<Integer> removeDuplicates(List<Integer> numbers) {
+        Map<Integer, Integer> countMap = new HashMap<>();
+        for (int number : numbers) {
+            countMap.put(number, countMap.getOrDefault(number, 0) + 1);
+        }
+        return numbers.stream()
+                      .filter(n -> countMap.get(n) == 1)
+                      .collect(Collectors.toList());
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/28,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public String concatenate(List<String> strings) {
+        return String.join("""", strings);
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/33,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<Integer> sortThird(List<Integer> l) {
+        List<Integer> result = new ArrayList<>(l);
+        List<Integer> thirdElements = new ArrayList<>();
+        
+        // Extract elements at indices divisible by three
+        for (int i = 0; i < result.size(); i += 3) {
+            thirdElements.add(result.get(i));
+        }
+        
+        // Sort the extracted elements
+        Collections.sort(thirdElements);
+        
+        // Place the sorted elements back into their original positions
+        for (int i = 0, j = 0; i < result.size(); i += 3, j++) {
+            result.set(i, thirdElements.get(j));
+        }
+        
+        return result;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/35,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int maxElement(List<Integer> l) {
+        if (l == null || l.isEmpty()) {
+            throw new IllegalArgumentException(""List cannot be null or empty"");
+        }
+        
+        int m = l.get(0);
+        for (int e : l) {
+            if (e > m) {
+                m = e;
+            }
+        }
+        return m;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/39,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int primeFib(int n) {
+        boolean[] isPrime = new boolean[10000]; // Assuming the upper limit for n is 10000
+        Arrays.fill(isPrime, true);
+        isPrime[0] = false;
+        isPrime[1] = false;
+
+        List<Integer> primes = new ArrayList<>();
+        for (int i = 2; i < isPrime.length; i++) {
+            if (isPrime[i]) {
+                primes.add(i);
+                for (int j = i * i; j < isPrime.length; j += i) {
+                    isPrime[j] = false;
+                }
+            }
+        }
+
+        List<Integer> fibPrimes = new ArrayList<>();
+        int a = 0, b = 1;
+        while (fibPrimes.size() < n) {
+            int next = a + b;
+            a = b;
+            b = next;
+            if (isPrime[next]) {
+                fibPrimes.add(next);
+            }
+        }
+
+        return fibPrimes.get(fibPrimes.size() - 1);
+    }
+}
+```",0.0,False,"Exception in thread ""main"" java.lang.ArrayIndexOutOfBoundsException: Index 10946 out of bounds for length 10000
+	at Solution.primeFib(Solution.java:32)
+	at Main.main(Main.java:17)"
+7b,humaneval_x_py2java,hex/40,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public boolean triplesSumToZero(List<Integer> l) {
+        int n = l.size();
+        for (int i = 0; i < n - 2; i++) {
+            for (int j = i + 1; j < n - 1; j++) {
+                for (int k = j + 1; k < n; k++) {
+                    if (l.get(i) + l.get(j) + l.get(k) == 0) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/44,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public String changeBase(int x, int base) {
+        StringBuilder ret = new StringBuilder();
+        while (x > 0) {
+            ret.insert(0, x % base);
+            x /= base;
+        }
+        return ret.toString();
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/45,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public double triangleArea(double a, double h) {
+        return a * h / 2.0;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/48,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public boolean isPalindrome(String text) {
+        int n = text.length();
+        for (int i = 0; i < n / 2; i++) {
+            if (text.charAt(i) != text.charAt(n - 1 - i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/50,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    /**
+    returns encoded string by shifting every character by 5 in the alphabet.
+     */
+    public String encodeShift(String s) {
+        StringBuilder sb = new StringBuilder();
+        for (char ch : s.toCharArray()) {
+            sb.append((char) ('a' + ((ch + 5 - 'a') % 26)));
+        }
+        return sb.toString();
+    }
+
+    public String decodeShift(String s) {
+        StringBuilder sb = new StringBuilder();
+        for (char ch : s.toCharArray()) {
+            sb.append((char) ('a' + ((ch - 5 - 'a') % 26 + 26) % 26));
+        }
+        return sb.toString();
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/55,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int fib(int n) {
+        if (n == 0) {
+            return 0;
+        }
+        if (n == 1) {
+            return 1;
+        }
+        return fib(n - 1) + fib(n - 2);
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/56,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public boolean correctBracketing(String brackets) {
+        int depth = 0;
+        for (char b : brackets.toCharArray()) {
+            if (b == '<') {
+                depth += 1;
+            } else {
+                depth -= 1;
+            }
+            if (depth < 0) {
+                return false;
+            }
+        }
+        return depth == 0;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/57,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public boolean monotonic(List<Integer> l) {
+        if (l.equals(new ArrayList<>(l).stream().sorted().collect(Collectors.toList())) ||
+            l.equals(new ArrayList<>(l).stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList()))) {
+            return true;
+        }
+        return false;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/58,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<Integer> common(List<Integer> l1, List<Integer> l2) {
+        Set<Integer> ret = new HashSet<>();
+        for (Integer e1 : l1) {
+            for (Integer e2 : l2) {
+                if (e1.equals(e2)) {
+                    ret.add(e1);
+                }
+            }
+        }
+        List<Integer> result = new ArrayList<>(ret);
+        Collections.sort(result);
+        return result;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/59,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int largestPrimeFactor(int n) {
+        // Helper method to check if a number is prime
+        boolean isPrime(int k) {
+            if (k < 2) {
+                return false;
+            }
+            for (int i = 2; i <= Math.sqrt(k); i++) {
+                if (k % i == 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        int largest = 1;
+        for (int j = 2; j <= n; j++) {
+            if (n % j == 0 && isPrime(j)) {
+                largest = Math.max(largest, j);
+            }
+        }
+        return largest;
+    }
+}
+```",0.0,False,"compile: /tmp/tmpajled0tj/Solution.java:12: error: ';' expected
+        boolean isPrime(int k) {
+                       ^
+/tmp/tmpajled0tj/Solution.java:12: error: ';' expected
+        boolean isPrime(int k) {
+                             ^
+2 errors"
+7b,humaneval_x_py2java,hex/62,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<Integer> derivative(List<Integer> xs) {
+        List<Integer> result = new ArrayList<>();
+        for (int i = 1; i < xs.size(); i++) {
+            result.add(i * xs.get(i));
+        }
+        return result;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/68,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<Integer> pluck(List<Integer> arr) {
+        if (arr.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        int minEvenValue = Integer.MAX_VALUE;
+        int minIndex = -1;
+
+        for (int i = 0; i < arr.size(); i++) {
+            int value = arr.get(i);
+            if (value % 2 == 0 && value < minEvenValue) {
+                minEvenValue = value;
+                minIndex = i;
+            }
+        }
+
+        if (minIndex == -1) {
+            return new ArrayList<>();
+        }
+
+        List<Integer> result = new ArrayList<>();
+        result.add(minEvenValue);
+        result.add(minIndex);
+        return result;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/70,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<Integer> strangeSortList(List<Integer> lst) {
+        List<Integer> res = new ArrayList<>();
+        boolean switchMin = true;
+        while (!lst.isEmpty()) {
+            int selectedValue = switchMin ? Collections.min(lst) : Collections.max(lst);
+            res.add(selectedValue);
+            lst.remove(Integer.valueOf(selectedValue));
+            switchMin = !switchMin;
+        }
+        return res;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/71,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public double triangleArea(double a, double b, double c) {
+        if (a + b <= c || a + c <= b || b + c <= a) {
+            return -1;
+        }
+        double s = (a + b + c) / 2;
+        double area = Math.sqrt(s * (s - a) * (s - b) * (s - c));
+        area = Math.round(area * 100.0) / 100.0;
+        return area;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/77,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public boolean iscube(int a) {
+        a = Math.abs(a);
+        return (int) Math.round(Math.pow(a, 1.0 / 3)) * Math.round(Math.pow(a, 1.0 / 3)) * Math.round(Math.pow(a, 1.0 / 3)) == a;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/86,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public String antiShuffle(String s) {
+        return Arrays.stream(s.split("" ""))
+                     .map(word -> {
+                         char[] chars = word.toCharArray();
+                         Arrays.sort(chars);
+                         return new String(chars);
+                     })
+                     .collect(Collectors.joining("" ""));
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/87,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<List<Integer>> getRow(List<List<Integer>> lst, int x) {
+        List<List<Integer>> result = new ArrayList<>();
+        
+        for (int i = 0; i < lst.size(); i++) {
+            List<Integer> row = lst.get(i);
+            for (int j = 0; j < row.size(); j++) {
+                if (row.get(j) == x) {
+                    List<Integer> coord = new ArrayList<>();
+                    coord.add(i);
+                    coord.add(j);
+                    result.add(coord);
+                }
+            }
+        }
+        
+        // Sort by rows in ascending order
+        Collections.sort(result, Comparator.comparingInt(a -> a.get(0)));
+        
+        // Sort by columns in descending order within the same row
+        for (List<Integer> coord : result) {
+            Collections.sort(coord, Collections.reverseOrder());
+        }
+        
+        return result;
+    }
+}
+```",0.0,False,"Exception in thread ""main"" java.lang.AssertionError
+	at Main.main(Main.java:37)"
+7b,humaneval_x_py2java,hex/93,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public String encode(String message) {
+        String vowels = ""aeiouAEIOU"";
+        Map<Character, Character> vowelsReplace = new HashMap<>();
+        for (char v : vowels.toCharArray()) {
+            vowelsReplace.put(v, (char)(v + 2));
+        }
+        
+        StringBuilder encodedMessage = new StringBuilder();
+        for (char c : message.toCharArray()) {
+            if (vowels.indexOf(c) != -1) {
+                encodedMessage.append(vowelsReplace.get(c));
+            } else {
+                encodedMessage.append(c);
+            }
+        }
+        
+        return encodedMessage.toString().toUpperCase().replace('A', 'a').replace('E', 'e').replace('I', 'i').replace('O', 'o').replace('U', 'u');
+    }
+}
+```",0.0,False,"Exception in thread ""main"" java.lang.AssertionError
+	at Main.main(Main.java:17)"
+7b,humaneval_x_py2java,hex/97,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int multiply(int a, int b) {
+        return Math.abs(a % 10) * Math.abs(b % 10);
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/103,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public String roundedAvg(int n, int m) {
+        if (m < n) {
+            return ""-1"";
+        }
+        long summation = 0;
+        for (int i = n; i <= m; i++) {
+            summation += i;
+        }
+        double average = (double) summation / (m - n + 1);
+        long roundedAverage = Math.round(average);
+        return ""0b"" + Long.toBinaryString(roundedAverage);
+    }
+}
+```",0.0,False,"compile: /tmp/tmphk55acyq/Main.java:19: error: incompatible types: String cannot be converted to int
+                (int) s.roundedAvg(7, 5) == -1,
+                                  ^
+/tmp/tmphk55acyq/Main.java:20: error: incompatible types: String cannot be converted to int
+                (int) s.roundedA"
+7b,humaneval_x_py2java,hex/107,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<Integer> evenOddPalindrome(int n) {
+        int evenPalindromeCount = 0;
+        int oddPalindromeCount = 0;
+
+        for (int i = 1; i <= n; i++) {
+            if (i % 2 == 1 && isPalindrome(i)) {
+                oddPalindromeCount++;
+            } else if (i % 2 == 0 && isPalindrome(i)) {
+                evenPalindromeCount++;
+            }
+        }
+
+        List<Integer> result = new ArrayList<>();
+        result.add(evenPalindromeCount);
+        result.add(oddPalindromeCount);
+
+        return result;
+    }
+
+    private boolean isPalindrome(int n) {
+        String numStr = Integer.toString(n);
+        String reversedStr = new StringBuilder(numStr).reverse().toString();
+        return numStr.equals(reversedStr);
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/108,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int countNums(List<Integer> arr) {
+        return (int) arr.stream()
+                .mapToInt(this::digitsSum)
+                .filter(x -> x > 0)
+                .count();
+    }
+
+    private int digitsSum(int n) {
+        int neg = 1;
+        if (n < 0) {
+            n *= -1;
+            neg = -1;
+        }
+        String s = Integer.toString(n);
+        int[] digits = new int[s.length()];
+        for (int i = 0; i < s.length(); i++) {
+            digits[i] = Character.digit(s.charAt(i), 10);
+        }
+        digits[0] *= neg;
+        return Arrays.stream(digits).sum();
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/114,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int minSubArraySum(List<Integer> nums) {
+        int max_sum = 0;
+        int s = 0;
+        for (int num : nums) {
+            s += -num;
+            if (s < 0) {
+                s = 0;
+            }
+            max_sum = Math.max(s, max_sum);
+        }
+        if (max_sum == 0) {
+            max_sum = Collections.min(nums);
+        }
+        int min_sum = -max_sum;
+        return min_sum;
+    }
+}
+```",0.0,False,"Exception in thread ""main"" java.lang.AssertionError
+	at Main.main(Main.java:24)"
+7b,humaneval_x_py2java,hex/129,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<Integer> minPath(List<List<Integer>> grid, int k) {
+        int n = grid.size();
+        int val = n * n + 1;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid.get(i).get(j) == 1) {
+                    List<Integer> temp = new ArrayList<>();
+                    if (i != 0) {
+                        temp.add(grid.get(i - 1).get(j));
+                    }
+
+                    if (j != 0) {
+                        temp.add(grid.get(i).get(j - 1));
+                    }
+
+                    if (i != n - 1) {
+                        temp.add(grid.get(i + 1).get(j));
+                    }
+
+                    if (j != n - 1) {
+                        temp.add(grid.get(i).get(j + 1));
+                    }
+
+                    val = Math.min(val, Collections.min(temp));
+                }
+            }
+        }
+
+        List<Integer> ans = new ArrayList<>();
+        for (int i = 0; i < k; i++) {
+            if (i % 2 == 0) {
+                ans.add(1);
+            } else {
+                ans.add(val);
+            }
+        }
+        return ans;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/135,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int canArrange(List<Integer> arr) {
+        int ind = -1;
+        int i = 1;
+        while (i < arr.size()) {
+            if (arr.get(i) < arr.get(i - 1)) {
+                ind = i;
+            }
+            i += 1;
+        }
+        return ind;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/138,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public boolean isEqualToSumEven(int n) {
+        return n % 2 == 0 && n >= 8;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/139,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public long specialFactorial(int n) {
+        long factI = 1;
+        long specialFact = 1;
+        for (int i = 1; i <= n; i++) {
+            factI *= i;
+            specialFact *= factI;
+        }
+        return specialFact;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/143,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public String wordsInSentence(String sentence) {
+        List<String> newLst = new ArrayList<>();
+        for (String word : sentence.split("" "")) {
+            if (isPrime(word.length())) {
+                newLst.add(word);
+            }
+        }
+        return String.join("" "", newLst);
+    }
+
+    private boolean isPrime(int num) {
+        if (num <= 1) {
+            return false;
+        }
+        if (num == 2) {
+            return true;
+        }
+        for (int i = 2; i <= Math.sqrt(num); i++) {
+            if (num % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/148,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<String> bf(String planet1, String planet2) {
+        String[] planetNames = {""Mercury"", ""Venus"", ""Earth"", ""Mars"", ""Jupiter"", ""Saturn"", ""Uranus"", ""Neptune""};
+        List<String> result = new ArrayList<>();
+        
+        int planet1Index = -1;
+        int planet2Index = -1;
+        
+        for (int i = 0; i < planetNames.length; i++) {
+            if (planetNames[i].equals(planet1)) {
+                planet1Index = i;
+            }
+            if (planetNames[i].equals(planet2)) {
+                planet2Index = i;
+            }
+        }
+        
+        if (planet1Index == -1 || planet2Index == -1 || planet1Index == planet2Index) {
+            return result;
+        }
+        
+        if (planet1Index < planet2Index) {
+            for (int i = planet1Index + 1; i < planet2Index; i++) {
+                result.add(planetNames[i]);
+            }
+        } else {
+            for (int i = planet2Index + 1; i < planet1Index; i++) {
+                result.add(planetNames[i]);
+            }
+        }
+        
+        return result;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/149,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<String> listSort(List<String> lst) {
+        Collections.sort(lst);
+        List<String> new_lst = new ArrayList<>();
+        for (String i : lst) {
+            if (i.length() % 2 == 0) {
+                new_lst.add(i);
+            }
+        }
+        new_lst.sort(Comparator.comparingInt(String::length).thenComparing(Comparator.naturalOrder()));
+        return new_lst;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/151,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int doubleTheDifference(List<Object> lst) {
+        int sum = 0;
+        for (Object obj : lst) {
+            if (obj instanceof Integer) {
+                int num = (Integer) obj;
+                if (num > 0 && num % 2 != 0) {
+                    sum += num * num;
+                }
+            }
+        }
+        return sum;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/152,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<Integer> compare(List<Integer> game, List<Integer> guess) {
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < game.size(); i++) {
+            int diff = Math.abs(game.get(i) - guess.get(i));
+            result.add(diff);
+        }
+        return result;
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/155,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<Integer> evenOddCount(int num) {
+        int even_count = 0;
+        int odd_count = 0;
+        for (char c : String.valueOf(Math.abs(num)).toCharArray()) {
+            if ((c - '0') % 2 == 0) {
+                even_count += 1;
+            } else {
+                odd_count += 1;
+            }
+        }
+        return Arrays.asList(even_count, odd_count);
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/156,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public String intToMiniRoman(int number) {
+        int[] num = {1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000}; 
+        String[] sym = {""I"", ""IV"", ""V"", ""IX"", ""X"", ""XL"", ""L"", ""XC"", ""C"", ""CD"", ""D"", ""CM"", ""M""}; 
+        int i = 12;
+        StringBuilder res = new StringBuilder();
+        while (number > 0) { 
+            int div = number / num[i]; 
+            number %= num[i]; 
+            while (div > 0) { 
+                res.append(sym[i]); 
+                div--; 
+            }
+            i--; 
+        }
+        return res.toString().toLowerCase();
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/161,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public String solve(String s) {
+        boolean hasLetter = false;
+        StringBuilder newStr = new StringBuilder(s);
+        
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (Character.isLetter(c)) {
+                newStr.setCharAt(i, Character.isUpperCase(c) ? Character.toLowerCase(c) : Character.toUpperCase(c));
+                hasLetter = true;
+            }
+        }
+        
+        if (!hasLetter) {
+            return newStr.reverse().toString();
+        }
+        
+        return newStr.toString();
+    }
+}
+```",1.0,True,
+7b,humaneval_x_py2java,hex/163,"```java
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public List<Integer> generateIntegers(int a, int b) {
+        List<Integer> result = new ArrayList<>();
+        
+        int lower = Math.max(2, Math.min(a, b));
+        int upper = Math.min(8, Math.max(a, b));
+
+        for (int i = lower; i <= upper; i++) {
+            if (i % 2 == 0) {
+                result.add(i);
+            }
+        }
+
+        return result;
+    }
+}
+```",1.0,True,
