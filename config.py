@@ -47,8 +47,14 @@ SAMPLE_SIZE = int(_SAMPLE_RAW) if _SAMPLE_RAW.isdigit() and int(_SAMPLE_RAW) > 0
 
 BENCHMARK_LIMIT = 20 if SMOKE else SAMPLE_SIZE  # None = all problems             
 
+# ---------------- dataset extension (mentor task) ----------------
+EXTENDED_DIR = DATA_DIR / "extended"
+EXTEND_MAX_RETRIES = int(os.environ.get("CODEGEN_EXTEND_RETRIES", "3"))
+# Use CODEGEN_EXTEND_SAMPLE=N to cap extension rows (defaults to BENCHMARK_LIMIT)
+_EXTEND_RAW = os.environ.get("CODEGEN_EXTEND_SAMPLE", "")
+EXTEND_LIMIT = int(_EXTEND_RAW) if _EXTEND_RAW.isdigit() and int(_EXTEND_RAW) > 0 else BENCHMARK_LIMIT
 
 
 def ensure_dirs() -> None:   
-    for d in [DATA_DIR, BENCHMARKS_DIR, TOOLS_DIR, RESULTS_DIR]:
+    for d in [DATA_DIR, BENCHMARKS_DIR, TOOLS_DIR, RESULTS_DIR, EXTENDED_DIR]:
         d.mkdir(parents=True, exist_ok=True)

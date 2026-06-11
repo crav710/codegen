@@ -101,3 +101,79 @@ def load_humaneval_x_py2java():
     return _limit(rows, config.BENCHMARK_LIMIT)
 
 
+def _humaneval_hex_key(task_id: str) -> str:
+    return task_id.split("/")[-1]
+
+
+def load_hex_lookup() -> dict[str, dict]:
+    """HumanEval-X rows keyed by problem number (e.g. '0', '1', ...)."""
+    py = _hex_split("python")
+    ja = _hex_split("java")
+    by_id_py = {r["task_id"].split("/")[-1]: r for r in py}
+    by_id_ja = {r["task_id"].split("/")[-1]: r for r in ja}
+    lookup = {}
+    for k in by_id_ja:
+        if k not in by_id_py:
+            continue
+        rp, rj = by_id_py[k], by_id_ja[k]
+        lookup[k] = {
+            "hex_id": f"hex/{k}",
+            "python_source": rp["prompt"] + rp["canonical_solution"],
+            "java_prompt": rj["prompt"],
+            "java_test": rj["test"],
+            "java_reference": rj["prompt"] + rj["canonical_solution"],
+            "entry_point_py": rp.get("entry_point"),
+            "test_py": rp.get("test"),
+        }
+    return lookup
+
+
+def load_humaneval_for_extension():
+    """HumanEval rows with NL/PL1 fields and optional HEX java metadata."""
+    from lib.ast_compare import extract_docstring_from_prompt
+
+    hex_lookup = load_hex_lookup()
+    rows = []
+    for r in load_humaneval():
+        key = _humaneval_hex_key(r["id"])
+        hx = hex_lookup.get(key, {})
+        rows.append({
+            **r,
+            "nl": extract_docstring_from_prompt(r["prompt"]),
+            "pl1": r["prompt"] + r["gold"],
+            "pl2": None,
+            "hex_key": key,
+            "java_test": hx.get("java_test"),
+            "java_reference": hx.get("java_reference"),
+        })
+    return _limit(rows, config.EXTEND_LIMIT)
+
+
+def load_mbpp_for_extension():
+    from lib.ast_compare import extract_docstring_from_prompt
+
+    rows = []
+    for r in load_mbpp():
+        rows.append({
+            **r,
+            "nl": extract_docstring_from_prompt(r["prompt"]) or r["prompt"],
+            "pl1": r["gold"] if r["gold"].lstrip().startswith("def") else r["prompt"] + r["gold"],
+            "pl2": None,
+        })
+    return _limit(rows, config.EXTEND_LIMIT)
+
+
+def load_humaneval_x_for_extension():
+    """HumanEval-X rows with PL1/PL2; NL to be generated."""
+    rows = []
+    for r in load_humaneval_x_py2java():
+        rows.append({
+            **r,
+            "nl": None,
+            "pl1": r["python_source"],
+            "pl2": r["java_reference"],
+            "java_declaration": r.get("java_declaration"),
+        })
+    return _limit(rows, config.EXTEND_LIMIT)
+
+

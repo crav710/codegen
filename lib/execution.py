@@ -116,6 +116,26 @@ def run_java(java_source: str, test_source: str, timeout: int = config.EXEC_TIME
             return {"passed": False, "error": f"runner: {e!r}"}
 
 
+def compile_java(java_source: str, timeout: int = config.EXEC_TIMEOUT_S) -> dict:
+    """Compile Java source only (no test execution)."""
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_path = Path(tmp)
+        sol_path = tmp_path / "Solution.java"
+        sol_path.write_text(_inject_imports(java_source), encoding="utf-8")
+        try:
+            compile_res = subprocess.run(
+                ["javac", str(sol_path)],
+                capture_output=True, text=True, timeout=timeout,
+            )
+            if compile_res.returncode == 0:
+                return {"passed": True, "error": None}
+            return {"passed": False, "error": "compile: " + (compile_res.stderr or "").strip()[:300]}
+        except subprocess.TimeoutExpired:
+            return {"passed": False, "error": f"timeout >{timeout}s"}
+        except Exception as e:
+            return {"passed": False, "error": f"runner: {e!r}"}
+
+
 def smoke_test_java() -> dict:
     """Sanity-check the Java toolchain. Compiles and runs a trivial passing program."""
     sol = "public class Solution { public static int add(int a, int b) { return a + b; } }"

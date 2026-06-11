@@ -100,6 +100,78 @@ def extract_python_body(text: str) -> str:
     return _strip_fences(text, ("python", "py"))
 
 
+# ----------------- Mentor extension: PL2 from NL+PL1 -----------------
+def build_pl2_generation_prompt(tokenizer, nl: str, pl1: str, feedback: str | None = None) -> str:
+    system = "You are an expert Java programmer."
+    fb = f"\n\n### Previous attempt feedback\n{feedback}\n" if feedback else ""
+    user = (
+        "Implement the following specification in Java.\n"
+        "You are given the English description (NL) and a reference Python solution (PL1).\n"
+        "Return the COMPLETE Java solution — imports + `class Solution { ... }` — "
+        "in a single ```java ... ``` code block. Preserve behavior.\n"
+        f"{fb}\n"
+        f"### English description (NL)\n{nl}\n\n"
+        f"### Reference Python (PL1)\n```python\n{pl1}\n```"
+    )
+    return _apply_chat(tokenizer, system, user)
+
+
+def build_pl2_feedback_prompt(
+    tokenizer, nl: str, pl1: str, pl2_attempt: str, discrepancy: str
+) -> str:
+    return build_pl2_generation_prompt(
+        tokenizer, nl, pl1,
+        feedback=(
+            f"The previous Java (PL2) did not validate.\n"
+            f"Discrepancy: {discrepancy}\n\n"
+            f"Previous PL2:\n```java\n{pl2_attempt}\n```\n"
+            "Generate a corrected PL2."
+        ),
+    )
+
+
+# ----------------- Mentor extension: NL from PL1+PL2 -----------------
+def build_nl_generation_prompt(tokenizer, pl1: str, pl2: str, feedback: str | None = None) -> str:
+    system = "You are an expert at describing code in clear English."
+    fb = f"\n\n### Previous attempt feedback\n{feedback}\n" if feedback else ""
+    user = (
+        "Write a precise English description of what this program does.\n"
+        "The description must be detailed enough that a developer could re-implement "
+        "the solution in Python or Java from your text alone.\n"
+        "Return ONLY the description (no code fences).\n"
+        f"{fb}\n"
+        f"### Python (PL1)\n```python\n{pl1}\n```\n\n"
+        f"### Java (PL2)\n```java\n{pl2}\n```"
+    )
+    return _apply_chat(tokenizer, system, user)
+
+
+def build_nl_feedback_prompt(
+    tokenizer, nl_attempt: str, pl1: str, pl2: str, discrepancy: str
+) -> str:
+    return build_nl_generation_prompt(
+        tokenizer, pl1, pl2,
+        feedback=(
+            f"The current description failed validation when used to regenerate code.\n"
+            f"Discrepancy: {discrepancy}\n\n"
+            f"Current NL:\n{nl_attempt}\n\n"
+            "Update the English description to fix the discrepancy."
+        ),
+    )
+
+
+def build_java_completion_from_nl_prompt(tokenizer, java_prompt: str) -> str:
+    """NL → PL2 direct completion (HumanEval-X java_prompt = signature + docstring)."""
+    system = "You are an expert Java programmer."
+    user = (
+        "Complete the following Java code from the English specification.\n"
+        "Return the COMPLETE program — imports + `class Solution { ... }` — "
+        "in a single ```java ... ``` code block.\n\n"
+        f"```java\n{java_prompt}\n```"
+    )
+    return _apply_chat(tokenizer, system, user)
+
+
 def extract_java_body(text: str) -> str:
     """Extract Java code from a model response. Returns the contents of the
     first ```java ... ``` (or unlabeled ``` ... ```) block. If no fence is
