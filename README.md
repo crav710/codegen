@@ -1,6 +1,6 @@
 # codgen — AIML PGCP Capstone (CodeGen / Task 3)
 
-**Repo:** https://github.com/crav710/codgen  
+**Repo:** https://github.com/crav710/codegen  
 (Team fork of https://github.com/svamsikrishna54/codgen)
 
 ## Branches
@@ -14,7 +14,7 @@
 
 1. Open `week1_setup_and_baselines.ipynb` in Google Colab
 2. Runtime → **T4 GPU**
-3. Run **Part 1** (cell 1.1 clones/pulls branch `mentor-extension` from `crav710/codgen`)
+3. Run **Part 1** (cell 1.1 clones/pulls branch `mentor-extension` from `crav710/codegen`)
 4. Run **Part 2** for baselines (optional)
 5. Run **Part 3** for mentor dataset extension
 
@@ -23,7 +23,7 @@
 ```bash
 # 1. Create empty repo on GitHub: https://github.com/new  → name: codgen
 # 2. Then from this folder:
-git remote add mygithub https://github.com/crav710/codgen.git   # skip if already added
+git remote add mygithub https://github.com/crav710/codegen.git   # skip if already added
 git push -u mygithub mentor-extension
 git push mygithub main   # optional: also push main
 ```
